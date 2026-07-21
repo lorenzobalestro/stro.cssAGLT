@@ -1728,7 +1728,7 @@
 
 })();
 
-/* ================= CENTRAL DE LINKS (100% VISÍVEL E COMPACTO) ================= */
+/* ================= CENTRAL DE LINKS (AGORA ABRINDO EM NOVAS GUIAS) ================= */
 (function(){
   "use strict";
 
@@ -1782,17 +1782,9 @@
 
   const container = document.getElementById('links-container');
 
-  function abrirJanela(url) {
+  function abrirEmNovaGuia(url) {
     if (!url) return;
-    const largura = 1100;
-    const altura = 750;
-    const esquerda = (window.screen.width - largura) / 2;
-    const topo = (window.screen.height - altura) / 2;
-    window.open(
-      url,
-      'YupooPopup',
-      `width=${largura},height=${altura},top=${topo},left=${esquerda},scrollbars=yes,resizable=yes`
-    );
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 
   function renderLinkGrid(){
@@ -1843,13 +1835,13 @@
 
         const badge = document.createElement('span');
         badge.className = 'link-card-badge';
-        badge.textContent = 'POPUP ↗';
+        badge.textContent = 'ABRIR ↗';
 
         item.appendChild(itemTitleWrap);
         item.appendChild(badge);
 
         item.addEventListener('click', () => {
-          abrirJanela(link.url);
+          abrirEmNovaGuia(link.url);
         });
 
         list.appendChild(item);
