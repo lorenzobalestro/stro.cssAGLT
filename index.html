@@ -269,100 +269,6 @@
     background:linear-gradient(135deg, var(--accent), #d8f3ff);
     border:1px solid rgba(255,255,255,0.5);
   }
-  #lock-screen{
-    position:fixed;
-    inset:0;
-    z-index:999;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:
-      radial-gradient(circle at 50% -12%, rgba(143,216,255,0.07), transparent 55%),
-      linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
-  }
-  #lock-screen.hidden{display:none;}
-  #app-content.locked{display:none;}
-  .lock-card{
-    width:100%;
-    max-width:340px;
-    background:var(--panel);
-    border:1px solid var(--panel-border);
-    border-radius:var(--radius-lg);
-    backdrop-filter:blur(18px) saturate(140%);
-    -webkit-backdrop-filter:blur(18px) saturate(140%);
-    padding:34px 28px;
-    text-align:center;
-    box-shadow:0 24px 60px -24px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.045);
-  }
-  .lock-icon{
-    width:44px; height:44px;
-    margin:0 auto 18px;
-    display:flex; align-items:center; justify-content:center;
-    border-radius:12px;
-    background:var(--panel-strong);
-    border:1px solid var(--panel-border);
-    color:var(--accent);
-  }
-  .lock-icon svg{width:20px;height:20px;}
-  .lock-title{
-    font-family:var(--font-display);
-    font-size:14px;
-    letter-spacing:0.12em;
-    color:var(--silver-100);
-    margin:0 0 6px;
-  }
-  .lock-sub{
-    font-size:12px;
-    color:var(--muted);
-    margin:0 0 22px;
-  }
-  .lock-input-wrap{
-    display:flex;
-    align-items:center;
-    background:rgba(0,0,0,0.28);
-    border:1px solid var(--panel-border);
-    border-radius:var(--radius-md);
-    padding:0 14px;
-    transition:border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-  .lock-input-wrap:focus-within{
-    border-color:var(--accent);
-    box-shadow:0 0 0 3px var(--accent-soft);
-  }
-  #lock-input{
-    flex:1;
-    background:transparent;
-    border:none;
-    outline:none;
-    color:var(--ink);
-    font-family:var(--font-num);
-    font-size:17px;
-    font-weight:600;
-    padding:12px 0;
-    min-width:0;
-    letter-spacing:0.14em;
-    text-align:center;
-  }
-  #lock-input::placeholder{color:var(--silver-700); letter-spacing:0.02em;}
-  .lock-error{
-    font-size:11px;
-    color:var(--danger);
-    margin-top:10px;
-    min-height:14px;
-    opacity:0;
-    transition:opacity 0.2s ease;
-  }
-  .lock-error.show{opacity:1;}
-  .lock-card.shake{animation:lockShake 0.4s ease;}
-  @keyframes lockShake{
-    0%,100%{transform:translateX(0);}
-    20%{transform:translateX(-8px);}
-    40%{transform:translateX(8px);}
-    60%{transform:translateX(-6px);}
-    80%{transform:translateX(6px);}
-  }
-
   .btn-primary:hover{
     box-shadow:0 0 24px -4px rgba(143,216,255,0.6);
   }
@@ -515,10 +421,62 @@
     overflow:hidden;
     text-overflow:ellipsis;
     outline:none;
+    white-space:nowrap;
   }
-  .tab-name[contenteditable="true"]{
+  .tab:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+    border-radius:6px;
+  }
+  .tab-name-input{
+    max-width:130px;
+    width:130px;
+    background:rgba(0,0,0,0.38);
+    border:1px solid var(--accent-strong);
+    border-radius:6px;
     color:var(--ink);
-    cursor:text;
+    font-family:inherit;
+    font-size:12px;
+    line-height:1.4;
+    padding:2px 6px;
+    outline:none;
+    box-shadow:0 0 0 3px var(--accent-soft);
+    animation:tabEditIn 0.15s ease;
+  }
+  @keyframes tabEditIn{
+    from{opacity:0; transform:scale(0.94);}
+    to{opacity:1; transform:scale(1);}
+  }
+  .tab-context-menu{
+    position:fixed;
+    z-index:1000;
+    background:#16171a;
+    border:1px solid var(--panel-border);
+    border-radius:10px;
+    padding:6px;
+    min-width:150px;
+    box-shadow:0 18px 40px -14px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.04);
+    animation:menuPop 0.14s ease;
+    transform-origin:top left;
+  }
+  @keyframes menuPop{
+    from{opacity:0; transform:scale(0.95) translateY(-3px);}
+    to{opacity:1; transform:scale(1) translateY(0);}
+  }
+  .tab-context-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 10px;
+    border-radius:6px;
+    font-size:12px;
+    color:var(--silver-100);
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .tab-context-item:hover{
+    background:var(--accent-soft);
+    color:var(--accent);
   }
   .tab-close{
     display:flex; align-items:center; justify-content:center;
@@ -1235,23 +1193,6 @@
 </head>
 <body>
 
-<div id="lock-screen">
-  <div class="lock-card" id="lock-card">
-    <div class="lock-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-    </div>
-    <p class="lock-title">ACESSO RESTRITO</p>
-    <p class="lock-sub">Digite a senha para continuar</p>
-    <div class="lock-input-wrap">
-      <input type="password" id="lock-input" placeholder="Senha" autocomplete="off" />
-    </div>
-    <button class="btn btn-primary" id="lock-submit" type="button" style="margin-top:14px;">Entrar</button>
-    <p class="lock-error" id="lock-error">Senha incorreta. Tente novamente.</p>
-  </div>
-</div>
-
-<div id="app-content" class="locked">
-
 <div class="hero">
   <p class="eyebrow">Painel Pessoal</p>
   <h1 class="title">CÂMBIO · CALCULADORA · NOTAS</h1>
@@ -1883,18 +1824,123 @@
   const saveDot = document.getElementById('save-dot');
   const saveText = document.getElementById('save-text');
 
-  let tabs = [{ id: 'note-1', name: 'Nota 1', content: '' }];
-  let activeId = 'note-1';
+  const NOTES_STORAGE_KEY = 'painel-notepad-notes-v2';
+  const DEFAULT_TITLE = 'Nova Nota';
+  const MAX_TITLE_LENGTH = 50;
+
+  let tabs = [];
+  let activeId = null;
   let saveTimer = null;
-  let tabCounter = 1;
+  let tabCounter = 0;
+  let activeContextMenu = null;
 
   function uid(){
     tabCounter += 1;
     return 'note-' + Date.now() + '-' + tabCounter;
   }
 
+  // Normaliza um título: remove espaços extras nas pontas, limita a 50
+  // caracteres e nunca permite que fique vazio.
+  function sanitizeTitle(raw){
+    let t = String(raw == null ? '' : raw).trim();
+    if (t.length > MAX_TITLE_LENGTH) t = t.slice(0, MAX_TITLE_LENGTH).trim();
+    if (!t) t = DEFAULT_TITLE;
+    return t;
+  }
+
+  function createTab(title){
+    return { id: uid(), title: sanitizeTitle(title), content: '' };
+  }
+
   function getActiveTab(){
     return tabs.find(t => t.id === activeId) || tabs[0];
+  }
+
+  function closeContextMenu(){
+    if (activeContextMenu){
+      activeContextMenu.remove();
+      activeContextMenu = null;
+    }
+  }
+
+  function openContextMenu(x, y, tab){
+    closeContextMenu();
+
+    const menu = document.createElement('div');
+    menu.className = 'tab-context-menu';
+
+    const renameItem = document.createElement('div');
+    renameItem.className = 'tab-context-item';
+    renameItem.textContent = 'Renomear';
+    renameItem.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeContextMenu();
+      switchTab(tab.id);
+      requestAnimationFrame(() => {
+        const tabEl = tabsBar.querySelector('.tab[data-id="' + tab.id + '"]');
+        if (tabEl) startRename(tab, tabEl);
+      });
+    });
+
+    menu.appendChild(renameItem);
+    document.body.appendChild(menu);
+
+    // Mantém o menu dentro da viewport
+    const rect = menu.getBoundingClientRect();
+    const left = Math.min(x, window.innerWidth - rect.width - 8);
+    const top = Math.min(y, window.innerHeight - rect.height - 8);
+    menu.style.left = Math.max(8, left) + 'px';
+    menu.style.top = Math.max(8, top) + 'px';
+
+    activeContextMenu = menu;
+
+    setTimeout(() => {
+      document.addEventListener('click', closeContextMenu, { once: true });
+      document.addEventListener('contextmenu', closeContextMenu, { once: true });
+    }, 0);
+  }
+
+  // Troca temporariamente o texto da aba por um campo de input editável.
+  function startRename(tab, tabEl){
+    if (!tabEl || tabEl.querySelector('.tab-name-input')) return;
+    const nameEl = tabEl.querySelector('.tab-name');
+    if (!nameEl) return;
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'tab-name tab-name-input';
+    input.value = tab.title;
+    input.maxLength = MAX_TITLE_LENGTH;
+    input.setAttribute('aria-label', 'Renomear nota');
+
+    nameEl.replaceWith(input);
+    input.focus();
+    input.select();
+
+    let settled = false;
+
+    const commit = () => {
+      if (settled) return;
+      settled = true;
+      tab.title = sanitizeTitle(input.value);
+      renderTabs();
+      scheduleSave(true);
+    };
+
+    const cancel = () => {
+      if (settled) return;
+      settled = true;
+      renderTabs();
+    };
+
+    input.addEventListener('keydown', (e) => {
+      e.stopPropagation();
+      if (e.key === 'Enter'){ e.preventDefault(); commit(); }
+      else if (e.key === 'Escape'){ e.preventDefault(); cancel(); }
+    });
+    input.addEventListener('blur', commit);
+    input.addEventListener('click', (e) => e.stopPropagation());
+    input.addEventListener('dblclick', (e) => e.stopPropagation());
   }
 
   function renderTabs(){
@@ -1903,22 +1949,19 @@
       const el = document.createElement('div');
       el.className = 'tab' + (tab.id === activeId ? ' active' : '');
       el.dataset.id = tab.id;
+      el.tabIndex = 0;
+      el.setAttribute('role', 'tab');
+      el.setAttribute('aria-selected', tab.id === activeId ? 'true' : 'false');
 
       const nameEl = document.createElement('span');
       nameEl.className = 'tab-name';
-      nameEl.textContent = tab.name;
-      nameEl.title = tab.name;
+      nameEl.textContent = tab.title;
+      nameEl.title = tab.title;
 
       nameEl.addEventListener('dblclick', (e) => {
         e.stopPropagation();
-        nameEl.contentEditable = 'true';
-        nameEl.focus();
-        document.execCommand('selectAll', false, null);
-      });
-      nameEl.addEventListener('blur', () => finishRename(tab, nameEl));
-      nameEl.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter'){ e.preventDefault(); nameEl.blur(); }
-        if (e.key === 'Escape'){ nameEl.textContent = tab.name; nameEl.blur(); }
+        switchTab(tab.id);
+        startRename(tab, el);
       });
 
       const closeEl = document.createElement('span');
@@ -1932,7 +1975,27 @@
 
       el.appendChild(nameEl);
       el.appendChild(closeEl);
-      el.addEventListener('click', () => switchTab(tab.id));
+
+      el.addEventListener('click', () => {
+        switchTab(tab.id);
+        el.focus();
+      });
+
+      el.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        switchTab(tab.id);
+        openContextMenu(e.clientX, e.clientY, tab);
+      });
+
+      // Atalho F2 quando a aba estiver selecionada (com foco no teclado)
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'F2'){
+          e.preventDefault();
+          startRename(tab, el);
+        }
+      });
+
       tabsBar.appendChild(el);
     });
 
@@ -1945,15 +2008,8 @@
     tabsBar.appendChild(addBtn);
   }
 
-  function finishRename(tab, nameEl){
-    nameEl.contentEditable = 'false';
-    const newName = nameEl.textContent.trim() || tab.name;
-    tab.name = newName.slice(0, 30);
-    nameEl.textContent = tab.name;
-    scheduleSave(true);
-  }
-
   function switchTab(id){
+    if (id === activeId) return;
     getActiveTab().content = textarea.value;
     activeId = id;
     textarea.value = getActiveTab().content;
@@ -1963,7 +2019,7 @@
 
   function addTab(){
     getActiveTab().content = textarea.value;
-    const newTab = { id: uid(), name: 'Nota ' + (tabs.length + 1), content: '' };
+    const newTab = createTab(DEFAULT_TITLE);
     tabs.push(newTab);
     activeId = newTab.id;
     textarea.value = '';
@@ -1984,7 +2040,7 @@
     tabs.splice(idx, 1);
 
     if (tabs.length === 0){
-      const fresh = { id: uid(), name: 'Nota 1', content: '' };
+      const fresh = createTab(DEFAULT_TITLE);
       tabs.push(fresh);
       activeId = fresh.id;
       textarea.value = '';
@@ -2012,87 +2068,52 @@
     }
   }
 
-  async function persistNotes(){
+  function persistNotes(){
     getActiveTab().content = textarea.value;
     try {
-      localStorage.setItem('notepad-tabs', JSON.stringify({ tabs, activeId }));
+      localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify({ tabs, activeId }));
       saveDot.classList.add('saved');
       saveText.textContent = 'Salvo';
       setTimeout(() => saveDot.classList.remove('saved'), 900);
     } catch (err){
-      saveText.textContent = 'Erro ao salvar';
+      // O navegador pode bloquear o armazenamento em alguns modos privados.
+      saveText.textContent = 'Salvo nesta sessão';
     }
   }
 
-  async function loadNotes(){
+  function loadNotes(){
     try {
-      const raw = localStorage.getItem('notepad-tabs');
+      const raw = localStorage.getItem(NOTES_STORAGE_KEY);
       if (raw){
         const data = JSON.parse(raw);
         if (data && Array.isArray(data.tabs) && data.tabs.length > 0){
-          tabs = data.tabs;
+          tabs = data.tabs.map(t => ({
+            id: (t && t.id) ? String(t.id) : uid(),
+            // Compatível com dados antigos que usavam a propriedade "name"
+            title: sanitizeTitle(t && (t.title !== undefined ? t.title : t.name)),
+            content: (t && typeof t.content === 'string') ? t.content : ''
+          }));
           activeId = tabs.some(t => t.id === data.activeId) ? data.activeId : tabs[0].id;
         }
       }
     } catch (err){
       // sem dados salvos ainda, mantém o estado padrão
-    } finally {
-      textarea.value = getActiveTab().content || '';
-      renderTabs();
-      saveText.textContent = 'Pronto';
     }
+
+    if (tabs.length === 0){
+      const first = createTab(DEFAULT_TITLE);
+      tabs = [first];
+      activeId = first.id;
+    }
+
+    textarea.value = getActiveTab().content || '';
+    renderTabs();
+    saveText.textContent = 'Pronto';
   }
 
   loadNotes();
 
 })();
 </script>
-
-</div>
-
-<script>
-(function(){
-  var SITE_PASSWORD = '2323'; // <-- troque aqui pela sua senha
-
-  var lockScreen = document.getElementById('lock-screen');
-  var appContent = document.getElementById('app-content');
-  var lockInput = document.getElementById('lock-input');
-  var lockSubmit = document.getElementById('lock-submit');
-  var lockError = document.getElementById('lock-error');
-  var lockCard = document.getElementById('lock-card');
-
-  function unlock(){
-    sessionStorage.setItem('site-unlocked', '1');
-    lockScreen.classList.add('hidden');
-    appContent.classList.remove('locked');
-  }
-
-  function tryUnlock(){
-    if (lockInput.value === SITE_PASSWORD){
-      unlock();
-    } else {
-      lockError.classList.add('show');
-      lockCard.classList.remove('shake');
-      void lockCard.offsetWidth;
-      lockCard.classList.add('shake');
-      lockInput.value = '';
-      lockInput.focus();
-    }
-  }
-
-  lockSubmit.addEventListener('click', tryUnlock);
-  lockInput.addEventListener('keydown', function(e){
-    if (e.key === 'Enter'){ tryUnlock(); }
-    lockError.classList.remove('show');
-  });
-
-  if (sessionStorage.getItem('site-unlocked') === '1'){
-    unlock();
-  } else {
-    lockInput.focus();
-  }
-})();
-</script>
-
 </body>
 </html>
