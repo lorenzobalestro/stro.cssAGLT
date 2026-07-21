@@ -632,21 +632,33 @@
   }
 
   /* =========================================================
-     LAYOUT FINAL: TELA DIVIDIDA AO MEIO E SEM ROLAGEM VERTICAL
+     LAYOUT FINAL: DUAS SEÇÕES EM TELA CHEIA, COM ROLAGEM VERTICAL
      ========================================================= */
 
   html,
   body{
     width:100%;
-    height:100%;
-    overflow:hidden;
+    height:auto;
+    overflow-x:hidden;
+    overflow-y:auto;
+    scroll-behavior:smooth;
   }
 
   body{
+    scroll-snap-type:y proximity;
+  }
+
+  .page-section{
+    width:100%;
+    height:100vh;
+    height:100dvh;
     min-height:100vh;
     min-height:100dvh;
     display:grid;
     grid-template-rows:auto minmax(0, 1fr) auto;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    position:relative;
   }
 
   .hero{
@@ -1189,10 +1201,337 @@
     margin:0;
   }
 
+  /* =========================================================
+     SEÇÃO 2: CENTRAL DE LINKS (sidebar + visualizador embutido)
+     ========================================================= */
+
+  #section-links main{
+    grid-template-columns:280px minmax(0,1fr);
+  }
+
+  .links-sidebar{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:var(--radius-lg);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    box-shadow:0 24px 60px -24px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.045);
+    padding:16px;
+    overflow-y:auto;
+    scrollbar-width:thin;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    min-height:0;
+    height:100%;
+  }
+  .links-sidebar::-webkit-scrollbar{width:5px;}
+  .links-sidebar::-webkit-scrollbar-thumb{background:var(--silver-700); border-radius:4px;}
+
+  .link-category{
+    border-radius:var(--radius-md);
+    overflow:hidden;
+  }
+
+  .link-category-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    width:100%;
+    padding:11px 12px;
+    background:var(--panel-strong);
+    border:1px solid var(--panel-border);
+    border-radius:var(--radius-md);
+    cursor:pointer;
+    color:var(--silver-100);
+    font-family:var(--font-display);
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    transition:border-color 0.2s ease, background 0.2s ease;
+  }
+  .link-category-head:hover{
+    border-color:var(--accent-strong);
+    background:rgba(143,216,255,0.06);
+  }
+  .link-category-icon{
+    width:24px; height:24px;
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:7px;
+    background:rgba(0,0,0,0.28);
+    color:var(--accent);
+  }
+  .link-category-icon svg{width:13px;height:13px;}
+  .link-category-name{flex:1; text-align:left;}
+  .link-category-chevron{
+    width:14px; height:14px;
+    color:var(--muted);
+    transition:transform 0.25s ease;
+    flex-shrink:0;
+  }
+  .link-category.open .link-category-chevron{transform:rotate(90deg);}
+
+  .link-category-links{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows 0.28s ease;
+  }
+  .link-category.open .link-category-links{
+    grid-template-rows:1fr;
+  }
+  .link-category-links-inner{
+    overflow:hidden;
+  }
+
+  .link-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    width:100%;
+    padding:9px 12px 9px 20px;
+    margin-top:4px;
+    background:transparent;
+    border:1px solid transparent;
+    border-radius:var(--radius-sm);
+    color:var(--silver-500);
+    font-family:var(--font-body);
+    font-size:12.5px;
+    text-align:left;
+    cursor:pointer;
+    transition:color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+  }
+  .link-item::before{
+    content:"";
+    width:4px; height:4px;
+    border-radius:50%;
+    background:var(--silver-700);
+    flex-shrink:0;
+    transition:background 0.18s ease, box-shadow 0.18s ease;
+    display:inline-block;
+  }
+  .link-item:hover{
+    color:var(--silver-100);
+    background:rgba(255,255,255,0.03);
+  }
+  .link-item.active{
+    color:var(--accent);
+    background:var(--accent-soft);
+    border-color:var(--accent-strong);
+  }
+  .link-item.active::before{
+    background:var(--accent);
+    box-shadow:0 0 6px var(--accent-strong);
+  }
+  .link-item-label{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  .links-viewer{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:var(--radius-lg);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    box-shadow:0 24px 60px -24px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.045);
+    padding:14px;
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+    height:100%;
+    overflow:hidden;
+  }
+
+  .links-viewer-bar{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding-bottom:12px;
+    margin-bottom:12px;
+    border-bottom:1px solid var(--panel-border);
+    flex:0 0 auto;
+  }
+
+  .links-viewer-title-wrap{min-width:0; flex:1;}
+  .links-viewer-eyebrow{
+    font-size:9.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .links-viewer-title{
+    font-family:var(--font-num);
+    font-size:16px;
+    font-weight:700;
+    color:var(--silver-100);
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  .links-viewer-actions{
+    display:flex;
+    gap:8px;
+    flex-shrink:0;
+  }
+
+  .btn-icon-label{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 12px;
+  }
+  .btn-icon-label svg{width:13px;height:13px;}
+
+  .btn-accent{
+    color:#08090b;
+    background:linear-gradient(135deg, var(--accent), #d8f3ff);
+    border:1px solid rgba(255,255,255,0.5);
+  }
+  .btn-accent:hover{box-shadow:0 0 20px -4px rgba(143,216,255,0.55);}
+
+  .links-frame-wrap{
+    flex:1;
+    min-height:0;
+    position:relative;
+    border-radius:var(--radius-md);
+    overflow:hidden;
+    background:rgba(0,0,0,0.3);
+    border:1px solid var(--panel-border);
+  }
+
+  #links-content-frame{
+    width:100%;
+    height:100%;
+    border:none;
+    background:#fff;
+    display:block;
+  }
+
+  .links-frame-state{
+    position:absolute;
+    inset:0;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    text-align:center;
+    padding:30px;
+    background:rgba(7,8,10,0.94);
+  }
+  .links-frame-state.visible{display:flex;}
+
+  .links-state-icon{
+    width:44px; height:44px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:12px;
+    background:var(--panel-strong);
+    border:1px solid var(--panel-border);
+    color:var(--accent);
+  }
+  .links-state-icon svg{width:22px;height:22px;}
+  .links-empty-state .links-state-icon{width:52px; height:52px;}
+  .links-empty-state .links-state-icon svg{width:24px;height:24px;}
+
+  .links-spinner{
+    width:22px; height:22px;
+    border:2.5px solid rgba(143,216,255,0.2);
+    border-top-color:var(--accent);
+    border-radius:50%;
+    animation:linksSpin 0.8s linear infinite;
+  }
+  @keyframes linksSpin{to{transform:rotate(360deg);}}
+
+  .links-state-title{
+    font-family:var(--font-num);
+    font-size:15px;
+    font-weight:700;
+    color:var(--silver-100);
+  }
+  .links-state-title.muted{color:var(--silver-300);}
+  .links-state-msg{
+    font-size:12px;
+    color:var(--muted);
+    max-width:340px;
+    line-height:1.5;
+  }
+
+  .links-empty-state{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    text-align:center;
+    color:var(--muted);
+  }
+
+  /* Botão flutuante de navegação entre as duas seções */
+  .scroll-nav-btn{
+    position:fixed;
+    right:26px;
+    bottom:26px;
+    z-index:50;
+    width:46px; height:46px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%;
+    background:linear-gradient(160deg, #2a2c31, #1a1b1e);
+    border:1px solid var(--panel-border);
+    color:var(--accent);
+    cursor:pointer;
+    box-shadow:0 14px 34px -12px rgba(0,0,0,0.7);
+    transition:border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    animation:scrollNavBounce 2.4s ease-in-out infinite;
+  }
+  .scroll-nav-btn:hover{
+    border-color:var(--accent-strong);
+    box-shadow:0 16px 40px -10px rgba(143,216,255,0.28);
+  }
+  .scroll-nav-btn svg{width:18px;height:18px;}
+  @keyframes scrollNavBounce{
+    0%, 100%{transform:translateY(0);}
+    50%{transform:translateY(-5px);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .scroll-nav-btn{animation:none;}
+  }
+
+  .scroll-nav-label{
+    position:fixed;
+    right:82px;
+    bottom:38px;
+    z-index:50;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    color:var(--muted);
+    background:rgba(11,12,15,0.7);
+    border:1px solid var(--panel-border);
+    padding:5px 10px;
+    border-radius:20px;
+    white-space:nowrap;
+    pointer-events:none;
+  }
+
+  @media (max-width:900px){
+    #section-links main{
+      grid-template-columns:1fr;
+      grid-template-rows:auto minmax(0,1fr);
+    }
+    .links-sidebar{
+      max-height:220px;
+    }
+    .scroll-nav-label{display:none;}
+  }
+
 </style>
 </head>
 <body>
 
+<section class="page-section" id="section-dashboard">
 <div class="hero">
   <p class="eyebrow">Painel Pessoal</p>
   <h1 class="title">CÂMBIO · CALCULADORA · NOTAS</h1>
@@ -1329,6 +1668,76 @@
 </main>
 
 <footer></footer>
+</section>
+
+<button class="scroll-nav-btn" id="scroll-nav-btn" type="button" aria-label="Ir para a próxima seção">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="scroll-nav-icon"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+</button>
+<span class="scroll-nav-label" id="scroll-nav-label">Central de Links</span>
+
+<section class="page-section" id="section-links">
+<div class="hero">
+  <p class="eyebrow">Painel Pessoal</p>
+  <h1 class="title">CENTRAL DE LINKS</h1>
+  <div class="title-rule"></div>
+</div>
+
+<main>
+  <!-- SIDEBAR -->
+  <nav class="links-sidebar" id="links-sidebar" aria-label="Categorias"></nav>
+
+  <!-- VIEWER -->
+  <section class="links-viewer" aria-label="Visualizador de conteúdo">
+    <div class="links-viewer-bar">
+      <div class="links-viewer-title-wrap">
+        <div class="links-viewer-eyebrow" id="links-viewer-eyebrow">Nenhum link selecionado</div>
+        <div class="links-viewer-title" id="links-viewer-title">Escolha um item na barra lateral</div>
+      </div>
+      <div class="links-viewer-actions">
+        <button class="btn btn-icon-label" id="links-btn-reload" type="button" title="Recarregar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+          <span>Recarregar</span>
+        </button>
+        <button class="btn btn-accent btn-icon-label" id="links-btn-newtab" type="button" title="Abrir em nova aba">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>
+          <span>Nova aba</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="links-frame-wrap" id="links-frame-wrap">
+      <iframe id="links-content-frame" title="Conteúdo" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+
+      <div class="links-frame-state" id="links-state-loading">
+        <div class="links-spinner"></div>
+        <div class="links-state-title">Carregando…</div>
+        <div class="links-state-msg">Buscando o conteúdo do link selecionado.</div>
+      </div>
+
+      <div class="links-frame-state" id="links-state-blocked">
+        <div class="links-state-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>
+        </div>
+        <div class="links-state-title">Este link não pode ser exibido aqui</div>
+        <div class="links-state-msg">O site de destino bloqueia a exibição dentro de outra página. Abra em uma nova aba para visualizar.</div>
+        <button class="btn btn-accent" id="links-btn-blocked-open" type="button">Abrir em nova aba</button>
+      </div>
+
+      <div class="links-frame-state" id="links-state-empty-inner">
+        <div class="links-empty-state">
+          <div class="links-state-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          </div>
+          <div class="links-state-title muted">Nenhum item selecionado</div>
+          <div class="links-state-msg">Clique em uma categoria na barra lateral e escolha um link para visualizar aqui.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>Central de links pessoal — organizado por categorias</footer>
+</section>
 
 <script>
 (function(){
@@ -2114,6 +2523,284 @@
   loadNotes();
 
 })();
+
+/* ================= CENTRAL DE LINKS ================= */
+(function(){
+  "use strict";
+
+  /* =========================================================
+     DADOS: edite este array para adicionar suas categorias e links.
+     - "name": nome da categoria (aparece na barra lateral)
+     - "icon": um pequeno path SVG (opcional, tem um padrão)
+     - "links": lista de { label, url }
+     ========================================================= */
+  const CATEGORIES = [
+    {
+      name: 'Categoria 1',
+      links: [
+        { label: 'Álbum exemplo A', url: 'https://example.com/album-a' },
+        { label: 'Álbum exemplo B', url: 'https://example.com/album-b' }
+      ]
+    },
+    {
+      name: 'Categoria 2',
+      links: [
+        { label: 'Álbum exemplo C', url: 'https://example.com/album-c' }
+      ]
+    },
+    {
+      name: 'Categoria 3',
+      links: [
+        { label: 'Álbum exemplo D', url: 'https://example.com/album-d' },
+        { label: 'Álbum exemplo E', url: 'https://example.com/album-e' }
+      ]
+    }
+  ];
+
+  const STORAGE_KEY = 'links-hub-state-v1';
+  const LOAD_TIMEOUT_MS = 6000;
+
+  const sidebar = document.getElementById('links-sidebar');
+  const frame = document.getElementById('links-content-frame');
+  const viewerTitle = document.getElementById('links-viewer-title');
+  const viewerEyebrow = document.getElementById('links-viewer-eyebrow');
+  const btnReload = document.getElementById('links-btn-reload');
+  const btnNewTab = document.getElementById('links-btn-newtab');
+  const btnBlockedOpen = document.getElementById('links-btn-blocked-open');
+
+  if (!sidebar || !frame) return;
+
+  const stateLoading = document.getElementById('links-state-loading');
+  const stateBlocked = document.getElementById('links-state-blocked');
+  const stateEmpty = document.getElementById('links-state-empty-inner');
+
+  let currentUrl = null;
+  let currentLabel = null;
+  let loadTimer = null;
+  let loadResolved = false;
+
+  function showState(el){
+    [stateLoading, stateBlocked, stateEmpty].forEach(s => s.classList.remove('visible'));
+    if (el) el.classList.add('visible');
+  }
+
+  function loadOpenCategories(){
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw){
+        const data = JSON.parse(raw);
+        return Array.isArray(data.openCategories) ? data.openCategories : [];
+      }
+    } catch (err){}
+    return [];
+  }
+
+  function saveState(openCategories){
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        openCategories,
+        lastUrl: currentUrl,
+        lastLabel: currentLabel
+      }));
+    } catch (err){}
+  }
+
+  function getOpenCategoryNames(){
+    return Array.from(sidebar.querySelectorAll('.link-category.open'))
+      .map(el => el.dataset.name);
+  }
+
+  function defaultIcon(){
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>';
+  }
+
+  function renderSidebar(){
+    sidebar.innerHTML = '';
+    const openSet = new Set(loadOpenCategories());
+
+    CATEGORIES.forEach((cat, catIdx) => {
+      const catEl = document.createElement('div');
+      catEl.className = 'link-category' + (openSet.has(cat.name) ? ' open' : '');
+      catEl.dataset.name = cat.name;
+
+      const head = document.createElement('button');
+      head.type = 'button';
+      head.className = 'link-category-head';
+
+      const icon = document.createElement('span');
+      icon.className = 'link-category-icon';
+      icon.innerHTML = cat.icon || defaultIcon();
+
+      const name = document.createElement('span');
+      name.className = 'link-category-name';
+      name.textContent = cat.name;
+
+      const chevron = document.createElement('span');
+      chevron.className = 'link-category-chevron';
+      chevron.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
+
+      head.appendChild(icon);
+      head.appendChild(name);
+      head.appendChild(chevron);
+
+      head.addEventListener('click', () => {
+        catEl.classList.toggle('open');
+        saveState(getOpenCategoryNames());
+      });
+
+      const linksWrap = document.createElement('div');
+      linksWrap.className = 'link-category-links';
+      const linksInner = document.createElement('div');
+      linksInner.className = 'link-category-links-inner';
+
+      (cat.links || []).forEach((link, linkIdx) => {
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'link-item';
+        item.dataset.url = link.url;
+        item.dataset.catIdx = catIdx;
+        item.dataset.linkIdx = linkIdx;
+
+        const label = document.createElement('span');
+        label.className = 'link-item-label';
+        label.textContent = link.label;
+        label.title = link.label;
+
+        item.appendChild(label);
+        item.addEventListener('click', () => openLink(link, item));
+
+        linksInner.appendChild(item);
+      });
+
+      linksWrap.appendChild(linksInner);
+      catEl.appendChild(head);
+      catEl.appendChild(linksWrap);
+      sidebar.appendChild(catEl);
+    });
+  }
+
+  function clearActiveLinks(){
+    sidebar.querySelectorAll('.link-item.active').forEach(el => el.classList.remove('active'));
+  }
+
+  function openLink(link, itemEl){
+    clearActiveLinks();
+    if (itemEl) itemEl.classList.add('active');
+
+    currentUrl = link.url;
+    currentLabel = link.label;
+    viewerTitle.textContent = link.label;
+    viewerEyebrow.textContent = 'Visualizando';
+
+    saveState(getOpenCategoryNames());
+    loadFrame(link.url);
+  }
+
+  function loadFrame(url){
+    loadResolved = false;
+    showState(stateLoading);
+    if (loadTimer) clearTimeout(loadTimer);
+
+    // O timeout cobre o caso em que o site bloqueia a exibição em iframe
+    // silenciosamente (sem disparar o evento de erro do navegador).
+    loadTimer = setTimeout(() => {
+      if (!loadResolved){
+        loadResolved = true;
+        showState(stateBlocked);
+      }
+    }, LOAD_TIMEOUT_MS);
+
+    frame.src = url;
+  }
+
+  frame.addEventListener('load', () => {
+    if (loadResolved) return;
+    loadResolved = true;
+    if (loadTimer) clearTimeout(loadTimer);
+    showState(null);
+  });
+
+  frame.addEventListener('error', () => {
+    if (loadResolved) return;
+    loadResolved = true;
+    if (loadTimer) clearTimeout(loadTimer);
+    showState(stateBlocked);
+  });
+
+  if (btnReload) btnReload.addEventListener('click', () => {
+    if (currentUrl) loadFrame(currentUrl);
+  });
+
+  if (btnNewTab) btnNewTab.addEventListener('click', () => {
+    if (currentUrl) window.open(currentUrl, '_blank', 'noopener,noreferrer');
+  });
+
+  if (btnBlockedOpen) btnBlockedOpen.addEventListener('click', () => {
+    if (currentUrl) window.open(currentUrl, '_blank', 'noopener,noreferrer');
+  });
+
+  renderSidebar();
+  showState(stateEmpty);
+
+  // Restaura o último link visualizado, se houver
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw){
+      const data = JSON.parse(raw);
+      if (data.lastUrl && data.lastLabel){
+        const matchEl = sidebar.querySelector('.link-item[data-url="' + CSS.escape(data.lastUrl) + '"]');
+        openLink({ url: data.lastUrl, label: data.lastLabel }, matchEl);
+      }
+    }
+  } catch (err){}
+
+})();
+
+/* ================= NAVEGAÇÃO ENTRE SEÇÕES (SCROLL) ================= */
+(function(){
+  "use strict";
+
+  const sectionDashboard = document.getElementById('section-dashboard');
+  const sectionLinks = document.getElementById('section-links');
+  const navBtn = document.getElementById('scroll-nav-btn');
+  const navIcon = document.getElementById('scroll-nav-icon');
+  const navLabel = document.getElementById('scroll-nav-label');
+
+  if (!sectionDashboard || !sectionLinks || !navBtn) return;
+
+  const ICON_DOWN = '<path d="M12 5v14M19 12l-7 7-7-7"/>';
+  const ICON_UP = '<path d="M12 19V5M5 12l7-7 7 7"/>';
+
+  let onLinksSection = false;
+
+  function setDirection(isOnLinks){
+    onLinksSection = isOnLinks;
+    navIcon.innerHTML = isOnLinks ? ICON_UP : ICON_DOWN;
+    navBtn.setAttribute('aria-label', isOnLinks ? 'Voltar ao painel' : 'Ir para a central de links');
+    if (navLabel) navLabel.textContent = isOnLinks ? 'Voltar ao painel' : 'Central de links';
+  }
+
+  setDirection(false);
+
+  navBtn.addEventListener('click', () => {
+    const target = onLinksSection ? sectionDashboard : sectionLinks;
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  if ('IntersectionObserver' in window){
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.6){
+          setDirection(entry.target.id === 'section-links');
+        }
+      });
+    }, { threshold: [0.6] });
+
+    observer.observe(sectionDashboard);
+    observer.observe(sectionLinks);
+  }
+})();
+
 </script>
 </body>
 </html>
