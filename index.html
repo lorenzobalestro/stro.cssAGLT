@@ -282,7 +282,7 @@
     font-weight:600;
   }
 
-  .input-wrap, .select-wrap{
+  .input-wrap{
     display:flex;
     align-items:center;
     background:rgba(0,0,0,0.45);
@@ -291,7 +291,7 @@
     padding:0 12px;
     transition:border-color 0.2s ease, box-shadow 0.2s ease;
   }
-  .input-wrap:focus-within, .select-wrap:focus-within{
+  .input-wrap:focus-within{
     border-color:rgba(255, 255, 255, 0.6);
     box-shadow:0 0 18px rgba(255, 255, 255, 0.15);
   }
@@ -315,23 +315,6 @@
     min-width:0;
   }
   .input-wrap input::placeholder{color:var(--silver-500);}
-
-  .select-wrap select{
-    flex:1;
-    background:transparent;
-    border:none;
-    outline:none;
-    color:#ffffff;
-    font-family:var(--font-body);
-    font-size:13px;
-    font-weight:600;
-    padding:12px 0;
-    cursor:pointer;
-  }
-  .select-wrap select option{
-    background:#12141d;
-    color:#ffffff;
-  }
 
   .btn{
     font-family:var(--font-body);
@@ -372,7 +355,7 @@
     transform:translateY(-2px);
   }
 
-  /* CARD DE CÂMBIO */
+  /* REPROPORCIONAMENTO DO CARD DE CÂMBIO */
   #card-exchange {
     display: flex;
     flex-direction: column;
@@ -742,7 +725,7 @@
     letter-spacing:0.08em;
   }
 
-  /* SEÇÃO 2: CENTRAL DE LINKS */
+  /* SEÇÃO 2: CENTRAL DE LINKS (LAYOUT ULTRA-COMPACTO E TUDO VISÍVEL) */
   #section-links main{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -832,135 +815,6 @@
     border-color: #ffffff;
   }
 
-  /* SEÇÃO 3: FRETE & EM DESENVOLVIMENTO (LAYOUT DIVIDIDO MEIO A MEIO) */
-  .two-halves-main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-    align-items: stretch;
-    height: 100%;
-  }
-
-  .disclaimer-box {
-    margin-top: 12px;
-    padding: 12px;
-    border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .disclaimer-item {
-    font-size: 11px;
-    line-height: 1.45;
-    color: var(--silver-300);
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .disclaimer-icon {
-    font-size: 13px;
-    flex-shrink: 0;
-  }
-
-  .weight-warning {
-    display: none;
-    padding: 8px 12px;
-    border-radius: var(--radius-sm);
-    background: rgba(255, 138, 147, 0.12);
-    border: 1px solid rgba(255, 138, 147, 0.3);
-    color: var(--danger);
-    font-size: 11px;
-    font-weight: 600;
-    margin-top: 8px;
-  }
-
-  .dev-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 30px 20px;
-    height: 100%;
-    border: 1px dashed rgba(255, 255, 255, 0.2);
-    border-radius: var(--radius-md);
-    background: rgba(0, 0, 0, 0.25);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .dev-badge {
-    font-family: var(--font-display);
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 16px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .pulse-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #ffffff;
-    box-shadow: 0 0 10px #ffffff;
-    animation: pulse 1.5s infinite;
-  }
-
-  @keyframes pulse {
-    0% { opacity: 0.3; transform: scale(0.9); }
-    50% { opacity: 1; transform: scale(1.3); }
-    100% { opacity: 0.3; transform: scale(0.9); }
-  }
-
-  .dev-title {
-    font-family: var(--font-display);
-    font-size: 16px;
-    font-weight: 800;
-    color: #ffffff;
-    letter-spacing: 0.1em;
-    margin-bottom: 8px;
-  }
-
-  .dev-desc {
-    font-size: 12px;
-    color: var(--silver-400);
-    max-width: 320px;
-    line-height: 1.5;
-    margin: 0 auto 20px;
-  }
-
-  .dev-preview-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    max-width: 320px;
-    text-align: left;
-  }
-
-  .dev-preview-item {
-    font-size: 11px;
-    padding: 8px 12px;
-    border-radius: var(--radius-sm);
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--silver-300);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
   .scroll-nav-btn{
     position:fixed;
     right:26px;
@@ -1009,7 +863,7 @@
   }
 
   @media (max-width:900px){
-    main, .two-halves-main{
+    main{
       grid-template-columns:1fr;
       height:auto;
     }
@@ -1036,7 +890,6 @@
 <div class="bg-blob bg-blob-2"></div>
 <div class="bg-blob bg-blob-3"></div>
 
-<!-- SEÇÃO 1: PAINEL PRINCIPAL -->
 <section class="page-section" id="section-dashboard">
 <div class="hero">
   <p class="eyebrow">Painel Pessoal - by Lorenzo Balestro</p>
@@ -1173,7 +1026,6 @@
 <footer></footer>
 </section>
 
-<!-- NAVEGAÇÃO FLUTUANTE DE 3 TELAS -->
 <button class="scroll-nav-btn" id="scroll-nav-btn" type="button" aria-label="Navegar">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="scroll-nav-icon"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
 </button>
@@ -1188,133 +1040,6 @@
 </div>
 
 <main id="links-container"></main>
-
-<footer>Central Hub para facilitar sua vida - est 25</footer>
-</section>
-
-<!-- SEÇÃO 3: FRETE & EM DESENVOLVIMENTO (DIVIDIDO AO MEIO) -->
-<section class="page-section" id="section-freight">
-<div class="hero">
-  <p class="eyebrow">CSSBuy & Estimativas</p>
-  <h1 class="title">FRETE & MÓDULOS</h1>
-  <div class="title-rule"></div>
-</div>
-
-<main class="two-halves-main">
-
-  <!-- METADE 1: EM DESENVOLVIMENTO -->
-  <section class="card" aria-label="Área em Desenvolvimento">
-    <div class="card-head">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-      </div>
-      <div class="card-titles">
-        <span class="card-title">MÓDULO FUTURO</span>
-        <span class="card-sub">Em Desenvolvimento</span>
-      </div>
-    </div>
-
-    <div class="dev-container">
-      <div class="dev-badge">
-        <span class="pulse-dot"></span>
-        S.T.R.O OS // V2.0 WIP
-      </div>
-      <div class="dev-title">ÁREA EM CONSTRUÇÃO</div>
-      <div class="dev-desc">
-        Esta metade do painel está sendo preparada para receber novas ferramentas automatizadas para a comunidade.
-      </div>
-
-      <div class="dev-preview-list">
-        <div class="dev-preview-item">
-          <span>📦 Rastreio de Encomendas</span>
-          <span style="color:var(--silver-500);">EM BREVE</span>
-        </div>
-        <div class="dev-preview-item">
-          <span>📊 Comparador de Agentes</span>
-          <span style="color:var(--silver-500);">EM BREVE</span>
-        </div>
-        <div class="dev-preview-item">
-          <span>🏷️ Tabela de Declaração Fiscal</span>
-          <span style="color:var(--silver-500);">EM BREVE</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- METADE 2: CALCULADORA DE FRETE CSSBUY COMPLETA -->
-  <section class="card" id="card-freight" aria-label="Calculadora de Frete">
-    <div class="card-head">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-      </div>
-      <div class="card-titles">
-        <span class="card-title">SIMULADOR DE FRETE</span>
-        <span class="card-sub">Todas as Linhas CSSBuy Brasil</span>
-      </div>
-    </div>
-
-    <div style="display:flex; flex-direction:column; gap:10px; flex:1; justify-content:center;">
-      <div>
-        <label class="field-label" for="freight-weight">Peso total estimado (gramas)</label>
-        <div class="input-wrap">
-          <input id="freight-weight" type="number" inputmode="numeric" placeholder="Ex: 1600" value="1600" autocomplete="off" min="10">
-          <span class="input-prefix" style="padding-right:0; padding-left:8px; font-size:14px;">g</span>
-        </div>
-        <div class="weight-warning" id="weight-warning">
-          🚨 ATENÇÃO: Esta linha EUB possui limite máximo de 2000g ou 3000g por pacote.
-        </div>
-      </div>
-
-      <div>
-        <label class="field-label" for="freight-line">Linha de envio (CSSBuy)</label>
-        <div class="select-wrap">
-          <select id="freight-line">
-            <optgroup label="Linhas Diretas / Tax Free">
-              <option value="fj-br" selected>FJ-BR (Direto Brasil — ~12-20 dias)</option>
-            </optgroup>
-            <optgroup label="Linhas EUB (Pequenos Volumes)">
-              <option value="sc-eub">SC-EUB (Sichuan EUB — ~15-25 dias)</option>
-              <option value="sz-eub">SZ-EUB (Shenzhen EUB — ~15-25 dias)</option>
-              <option value="bj-eub">BJ-EUB (Beijing EUB — ~15-25 dias)</option>
-              <option value="gd-eub">GD-EUB (Guangdong EUB — ~15-25 dias)</option>
-            </optgroup>
-            <optgroup label="Linhas SAL (Econômico / Pesados)">
-              <option value="gd-sal">GD-SAL (China Post SAL — ~25-45 dias)</option>
-              <option value="hz-sal">HZ-SAL (China Post SAL — ~25-45 dias)</option>
-            </optgroup>
-            <optgroup label="Linhas EMS / Express">
-              <option value="hz-ems">HZ-EMS (Hangzhou EMS — ~10-18 dias)</option>
-              <option value="gd-ems">GD-EMS (Guangdong EMS — ~10-18 dias)</option>
-              <option value="e-ems">E-EMS (Econômico Express — ~12-22 dias)</option>
-            </optgroup>
-            <optgroup label="China Post Aéreo">
-              <option value="air-parcel">China Post Big Air Parcel (~20-35 dias)</option>
-            </optgroup>
-          </select>
-        </div>
-      </div>
-
-      <div class="result-block">
-        <div class="result-label">Frete estimado</div>
-        <div class="result-value" id="freight-cny-result">¥ 0,00</div>
-        <div style="font-size:13px; color:var(--silver-300); margin-top:4px; font-weight:600;" id="freight-brl-result">~ R$ 0,00</div>
-      </div>
-
-      <!-- DISCLAIMER DE FRETE BASE E ESTIMATIVA -->
-      <div class="disclaimer-box">
-        <div class="disclaimer-item">
-          <span class="disclaimer-icon">⚠️</span>
-          <span><strong>MÉDIA ESTIMADA:</strong> Valores aproximados baseados na tabela e em envios reais. O custo final pode variar conforme o peso volumétrico real do pacote no warehouse.</span>
-        </div>
-        <div class="disclaimer-item">
-          <span class="disclaimer-icon">📦</span>
-          <span><strong>APENAS FRETE BASE:</strong> O valor exibido **NÃO INCLUI** seguro, taxas alfandegárias/declaração e serviços adicionais (como filme bolha, reforço ou remoção de caixas).</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</main>
 
 <footer>Central Hub para facilitar sua vida - est 25</footer>
 </section>
@@ -1351,6 +1076,7 @@
     });
 
     function renderSpotlight() {
+      // Suavização do movimento (Lerp) para luxo visual total
       currentX += (mouseX - currentX) * 0.12;
       currentY += (mouseY - currentY) * 0.12;
 
@@ -1417,103 +1143,15 @@
     rateInput.value = next.toFixed(2);
     syncRatePreview();
     convert();
-    if (typeof calculateFreight === 'function') calculateFreight();
   }
 
   if(convertBtn) convertBtn.addEventListener('click', convert);
   if(yuanInput) yuanInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') convert(); });
-  if(rateInput) rateInput.addEventListener('input', () => { syncRatePreview(); convert(); if (typeof calculateFreight === 'function') calculateFreight(); });
+  if(rateInput) rateInput.addEventListener('input', () => { syncRatePreview(); convert(); });
   if(rateMinus) rateMinus.addEventListener('click', () => adjustRate(-0.01));
   if(ratePlus) ratePlus.addEventListener('click', () => adjustRate(0.01));
 
   syncRatePreview();
-
-  /* ================= CALCULADORA DE FRETE COMPLETA ================= */
-  const freightWeightInput = document.getElementById('freight-weight');
-  const freightLineSelect = document.getElementById('freight-line');
-  const freightCnyResult = document.getElementById('freight-cny-result');
-  const freightBrlResult = document.getElementById('freight-brl-result');
-  const weightWarning = document.getElementById('weight-warning');
-
-  function calculateFreight(){
-    if (!freightWeightInput || !freightLineSelect) return;
-    const g = Math.max(0, parseFloat(freightWeightInput.value) || 0);
-    const line = freightLineSelect.value;
-    let cnyCost = 0;
-    let isOverWeight = false;
-
-    if (g > 0) {
-      switch(line) {
-        // LINHAS EUB (Ex: 1080g SC = 185Y | 2630g SZ = 395Y)
-        case 'sc-eub':
-          cnyCost = 50 + (0.125 * g);
-          if (g > 2000) isOverWeight = true;
-          break;
-        case 'sz-eub':
-          cnyCost = 40 + (0.135 * g);
-          if (g > 3000) isOverWeight = true;
-          break;
-        case 'bj-eub':
-          cnyCost = 45 + (0.130 * g);
-          if (g > 3000) isOverWeight = true;
-          break;
-        case 'gd-eub':
-          cnyCost = 42 + (0.128 * g);
-          if (g > 3000) isOverWeight = true;
-          break;
-
-        // LINHA DIRETA (Ex: 1600g FJ-BR = 227Y)
-        case 'fj-br':
-          cnyCost = 35 + (0.120 * g);
-          if (g > 5000) isOverWeight = true;
-          break;
-
-        // LINHAS SAL (China Post SAL) - Econômico para grandes pesos
-        case 'gd-sal':
-          cnyCost = 80 + (0.058 * g);
-          break;
-        case 'hz-sal':
-          cnyCost = 75 + (0.060 * g);
-          break;
-
-        // LINHAS EMS / EXPRESS
-        case 'hz-ems':
-          cnyCost = 80 + (0.145 * g);
-          break;
-        case 'gd-ems':
-          cnyCost = 90 + (0.140 * g);
-          break;
-        case 'e-ems':
-          cnyCost = 70 + (0.130 * g);
-          break;
-
-        // CHINA POST AIR PARCEL
-        case 'air-parcel':
-          cnyCost = 100 + (0.075 * g);
-          break;
-
-        default:
-          cnyCost = 0;
-      }
-    }
-
-    const brlCost = cnyCost / currentRate();
-
-    if (freightCnyResult) {
-      freightCnyResult.textContent = '¥ ' + cnyCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-    if (freightBrlResult) {
-      freightBrlResult.textContent = '~ ' + formatBRL(brlCost);
-    }
-
-    if (weightWarning) {
-      weightWarning.style.display = isOverWeight ? 'block' : 'none';
-    }
-  }
-
-  if (freightWeightInput) freightWeightInput.addEventListener('input', calculateFreight);
-  if (freightLineSelect) freightLineSelect.addEventListener('change', calculateFreight);
-  calculateFreight();
 
   /* ================= CALCULADORA ================= */
   const calcTop = document.getElementById('calc-top');
@@ -1761,6 +1399,7 @@
       .replace(/÷|:/g, '/')
       .replace(/,/g, '.');
 
+    // Percentuais seguros
     expr = expr.replace(/(\d+(?:\.\d+)?)\s*([\+\-])\s*(\d+(?:\.\d+)?)%/gi, (m, a, op, b) => {
       const nA = parseFloat(a);
       const nB = parseFloat(b);
@@ -1786,6 +1425,7 @@
       if (!cand || !/\d/.test(cand)) continue;
 
       try {
+        // Validação estrita por RegEx antes de avaliar (Proteção contra injeção e crashes)
         if (/^[0-9\.\+\-\*\/\(\)\s]+$/.test(cand)){
           const result = Function('"use strict"; return (' + cand + ')')();
           if (typeof result === 'number' && isFinite(result)){
@@ -2048,6 +1688,7 @@
     }
   }
 
+  // Salvamento ultra-seguro com Try/Catch para proteger contra quotas cheias ou localStorage desativado
   function persistNotes(){
     if(getActiveTab()) getActiveTab().content = textarea.value;
     try {
@@ -2087,7 +1728,7 @@
 
 })();
 
-/* ================= CENTRAL DE LINKS ================= */
+/* ================= CENTRAL DE LINKS (100% VISÍVEL E COMPACTO) ================= */
 (function(){
   "use strict";
 
@@ -2141,9 +1782,17 @@
 
   const container = document.getElementById('links-container');
 
-  function abrirEmNovaGuia(url) {
+  function abrirJanela(url) {
     if (!url) return;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    const largura = 1100;
+    const altura = 750;
+    const esquerda = (window.screen.width - largura) / 2;
+    const topo = (window.screen.height - altura) / 2;
+    window.open(
+      url,
+      'YupooPopup',
+      `width=${largura},height=${altura},top=${topo},left=${esquerda},scrollbars=yes,resizable=yes`
+    );
   }
 
   function renderLinkGrid(){
@@ -2194,13 +1843,13 @@
 
         const badge = document.createElement('span');
         badge.className = 'link-card-badge';
-        badge.textContent = 'ABRIR ↗';
+        badge.textContent = 'POPUP ↗';
 
         item.appendChild(itemTitleWrap);
         item.appendChild(badge);
 
         item.addEventListener('click', () => {
-          abrirEmNovaGuia(link.url);
+          abrirJanela(link.url);
         });
 
         list.appendChild(item);
@@ -2216,36 +1865,25 @@
 
 })();
 
-/* ================= NAVEGAÇÃO ENTRE AS 3 SEÇÕES ================= */
+/* ================= NAVEGAÇÃO ENTRE SEÇÕES ================= */
 (function(){
   "use strict";
 
-  const sections = [
-    { id: 'section-dashboard', label: 'Central de links', icon: '<path d="M12 5v14M19 12l-7 7-7-7"/>' },
-    { id: 'section-links', label: 'Calculadora de Frete', icon: '<path d="M12 5v14M19 12l-7 7-7-7"/>' },
-    { id: 'section-freight', label: 'Voltar ao painel', icon: '<path d="M12 19V5M5 12l7-7 7 7"/>' }
-  ];
-
-  let currentStep = 0;
+  const sectionDashboard = document.getElementById('section-dashboard');
+  const sectionLinks = document.getElementById('section-links');
   const navBtn = document.getElementById('scroll-nav-btn');
   const navIcon = document.getElementById('scroll-nav-icon');
   const navLabel = document.getElementById('scroll-nav-label');
 
-  function updateNavUI(step) {
-    currentStep = step;
-    const nextStep = (currentStep + 1) % sections.length;
-    if (navIcon) navIcon.innerHTML = sections[currentStep].icon;
-    if (navLabel) navLabel.textContent = sections[currentStep].label;
-  }
+  let onLinks = false;
 
   if (navBtn) {
     navBtn.addEventListener('click', () => {
-      const nextStep = (currentStep + 1) % sections.length;
-      const target = document.getElementById(sections[nextStep].id);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-        updateNavUI(nextStep);
-      }
+      onLinks = !onLinks;
+      const target = onLinks ? sectionLinks : sectionDashboard;
+      if(target) target.scrollIntoView({ behavior: 'smooth' });
+      if(navIcon) navIcon.innerHTML = onLinks ? '<path d="M12 19V5M5 12l7-7 7 7"/>' : '<path d="M12 5v14M19 12l-7 7-7-7"/>';
+      if(navLabel) navLabel.textContent = onLinks ? 'Voltar ao painel' : 'Central de links';
     });
   }
 })();
