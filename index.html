@@ -323,7 +323,7 @@
     outline:none;
     color:#ffffff;
     font-family:var(--font-body);
-    font-size:13.5px;
+    font-size:13px;
     font-weight:600;
     padding:12px 0;
     cursor:pointer;
@@ -372,7 +372,7 @@
     transform:translateY(-2px);
   }
 
-  /* REPROPORCIONAMENTO DO CARD DE CÂMBIO */
+  /* CARD DE CÂMBIO */
   #card-exchange {
     display: flex;
     flex-direction: column;
@@ -866,6 +866,18 @@
     flex-shrink: 0;
   }
 
+  .weight-warning {
+    display: none;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 138, 147, 0.12);
+    border: 1px solid rgba(255, 138, 147, 0.3);
+    color: var(--danger);
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
   .dev-container {
     display: flex;
     flex-direction: column;
@@ -1180,7 +1192,7 @@
 <footer>Central Hub para facilitar sua vida - est 25</footer>
 </section>
 
-<!-- SEÇÃO 3: FERRAMENTAS & FRETE (DIVIDIDO AO MEIO) -->
+<!-- SEÇÃO 3: FRETE & EM DESENVOLVIMENTO (DIVIDIDO AO MEIO) -->
 <section class="page-section" id="section-freight">
 <div class="hero">
   <p class="eyebrow">CSSBuy & Estimativas</p>
@@ -1229,7 +1241,7 @@
     </div>
   </section>
 
-  <!-- METADE 2: CALCULADORA DE FRETE -->
+  <!-- METADE 2: CALCULADORA DE FRETE CSSBUY COMPLETA -->
   <section class="card" id="card-freight" aria-label="Calculadora de Frete">
     <div class="card-head">
       <div class="card-icon">
@@ -1237,16 +1249,19 @@
       </div>
       <div class="card-titles">
         <span class="card-title">SIMULADOR DE FRETE</span>
-        <span class="card-sub">Estimativa CSSBuy Brasil</span>
+        <span class="card-sub">Todas as Linhas CSSBuy Brasil</span>
       </div>
     </div>
 
-    <div style="display:flex; flex-direction:column; gap:12px; flex:1; justify-content:center;">
+    <div style="display:flex; flex-direction:column; gap:10px; flex:1; justify-content:center;">
       <div>
         <label class="field-label" for="freight-weight">Peso total estimado (gramas)</label>
         <div class="input-wrap">
           <input id="freight-weight" type="number" inputmode="numeric" placeholder="Ex: 1600" value="1600" autocomplete="off" min="10">
           <span class="input-prefix" style="padding-right:0; padding-left:8px; font-size:14px;">g</span>
+        </div>
+        <div class="weight-warning" id="weight-warning">
+          🚨 ATENÇÃO: Esta linha EUB possui limite máximo de 2000g ou 3000g por pacote.
         </div>
       </div>
 
@@ -1254,10 +1269,27 @@
         <label class="field-label" for="freight-line">Linha de envio (CSSBuy)</label>
         <div class="select-wrap">
           <select id="freight-line">
-            <option value="fj-br" selected>FJ-BR (Direta Brasil — ~12-20 dias)</option>
-            <option value="sc-eub">SC-EUB (EUB Padrão — ~15-25 dias)</option>
-            <option value="sz-eub">SZ-EUB (EUB Expandido — ~15-25 dias)</option>
-            <option value="hz-ems">HZ-EMS (Express / Pesados — ~10-18 dias)</option>
+            <optgroup label="Linhas Diretas / Tax Free">
+              <option value="fj-br" selected>FJ-BR (Direto Brasil — ~12-20 dias)</option>
+            </optgroup>
+            <optgroup label="Linhas EUB (Pequenos Volumes)">
+              <option value="sc-eub">SC-EUB (Sichuan EUB — ~15-25 dias)</option>
+              <option value="sz-eub">SZ-EUB (Shenzhen EUB — ~15-25 dias)</option>
+              <option value="bj-eub">BJ-EUB (Beijing EUB — ~15-25 dias)</option>
+              <option value="gd-eub">GD-EUB (Guangdong EUB — ~15-25 dias)</option>
+            </optgroup>
+            <optgroup label="Linhas SAL (Econômico / Pesados)">
+              <option value="gd-sal">GD-SAL (China Post SAL — ~25-45 dias)</option>
+              <option value="hz-sal">HZ-SAL (China Post SAL — ~25-45 dias)</option>
+            </optgroup>
+            <optgroup label="Linhas EMS / Express">
+              <option value="hz-ems">HZ-EMS (Hangzhou EMS — ~10-18 dias)</option>
+              <option value="gd-ems">GD-EMS (Guangdong EMS — ~10-18 dias)</option>
+              <option value="e-ems">E-EMS (Econômico Express — ~12-22 dias)</option>
+            </optgroup>
+            <optgroup label="China Post Aéreo">
+              <option value="air-parcel">China Post Big Air Parcel (~20-35 dias)</option>
+            </optgroup>
           </select>
         </div>
       </div>
@@ -1268,15 +1300,15 @@
         <div style="font-size:13px; color:var(--silver-300); margin-top:4px; font-weight:600;" id="freight-brl-result">~ R$ 0,00</div>
       </div>
 
-      <!-- DISCLAIMER IMPORTANTE SOLICITADO -->
+      <!-- DISCLAIMER DE FRETE BASE E ESTIMATIVA -->
       <div class="disclaimer-box">
         <div class="disclaimer-item">
           <span class="disclaimer-icon">⚠️</span>
-          <span><strong>MÉDIA APROXIMADA:</strong> Os valores são apenas estimativas baseadas em pacotes reais já enviados. Não é possível prever 100% o custo exato antecipadamente devido a variações de medidas e volume.</span>
+          <span><strong>MÉDIA ESTIMADA:</strong> Valores aproximados baseados na tabela e em envios reais. O custo final pode variar conforme o peso volumétrico real do pacote no warehouse.</span>
         </div>
         <div class="disclaimer-item">
           <span class="disclaimer-icon">📦</span>
-          <span><strong>APENAS FRETE BASE:</strong> O valor exibido **NÃO INCLUI** seguro, taxa de declaração alfandegária nem adicionais opcionais de embalagem (como caixas reforçadas, plástico bolha ou cantoneiras).</span>
+          <span><strong>APENAS FRETE BASE:</strong> O valor exibido **NÃO INCLUI** seguro, taxas alfandegárias/declaração e serviços adicionais (como filme bolha, reforço ou remoção de caixas).</span>
         </div>
       </div>
     </div>
@@ -1396,31 +1428,72 @@
 
   syncRatePreview();
 
-  /* ================= CALCULADORA DE FRETE ================= */
+  /* ================= CALCULADORA DE FRETE COMPLETA ================= */
   const freightWeightInput = document.getElementById('freight-weight');
   const freightLineSelect = document.getElementById('freight-line');
   const freightCnyResult = document.getElementById('freight-cny-result');
   const freightBrlResult = document.getElementById('freight-brl-result');
+  const weightWarning = document.getElementById('weight-warning');
 
   function calculateFreight(){
     if (!freightWeightInput || !freightLineSelect) return;
     const g = Math.max(0, parseFloat(freightWeightInput.value) || 0);
     const line = freightLineSelect.value;
     let cnyCost = 0;
+    let isOverWeight = false;
 
     if (g > 0) {
-      if (line === 'sc-eub') {
-        // Base baseada na jaqueta: 1080g -> 185 Y
-        cnyCost = 50 + (0.125 * g);
-      } else if (line === 'sz-eub') {
-        // Base baseada no pacote SZ: 2630g -> 395 Y
-        cnyCost = 40 + (0.135 * g);
-      } else if (line === 'fj-br') {
-        // Base baseada no pacote FJ-BR: 1600g -> 227 Y
-        cnyCost = 35 + (0.120 * g);
-      } else if (line === 'hz-ems') {
-        // Express pesados
-        cnyCost = 80 + (0.145 * g);
+      switch(line) {
+        // LINHAS EUB (Ex: 1080g SC = 185Y | 2630g SZ = 395Y)
+        case 'sc-eub':
+          cnyCost = 50 + (0.125 * g);
+          if (g > 2000) isOverWeight = true;
+          break;
+        case 'sz-eub':
+          cnyCost = 40 + (0.135 * g);
+          if (g > 3000) isOverWeight = true;
+          break;
+        case 'bj-eub':
+          cnyCost = 45 + (0.130 * g);
+          if (g > 3000) isOverWeight = true;
+          break;
+        case 'gd-eub':
+          cnyCost = 42 + (0.128 * g);
+          if (g > 3000) isOverWeight = true;
+          break;
+
+        // LINHA DIRETA (Ex: 1600g FJ-BR = 227Y)
+        case 'fj-br':
+          cnyCost = 35 + (0.120 * g);
+          if (g > 5000) isOverWeight = true;
+          break;
+
+        // LINHAS SAL (China Post SAL) - Econômico para grandes pesos
+        case 'gd-sal':
+          cnyCost = 80 + (0.058 * g);
+          break;
+        case 'hz-sal':
+          cnyCost = 75 + (0.060 * g);
+          break;
+
+        // LINHAS EMS / EXPRESS
+        case 'hz-ems':
+          cnyCost = 80 + (0.145 * g);
+          break;
+        case 'gd-ems':
+          cnyCost = 90 + (0.140 * g);
+          break;
+        case 'e-ems':
+          cnyCost = 70 + (0.130 * g);
+          break;
+
+        // CHINA POST AIR PARCEL
+        case 'air-parcel':
+          cnyCost = 100 + (0.075 * g);
+          break;
+
+        default:
+          cnyCost = 0;
       }
     }
 
@@ -1431,6 +1504,10 @@
     }
     if (freightBrlResult) {
       freightBrlResult.textContent = '~ ' + formatBRL(brlCost);
+    }
+
+    if (weightWarning) {
+      weightWarning.style.display = isOverWeight ? 'block' : 'none';
     }
   }
 
