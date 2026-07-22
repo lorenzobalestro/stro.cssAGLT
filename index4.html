@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="referrer" content="no-referrer">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#090a0f">
+<title>S.T.R.O - Central Mobile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#090a0f;
+    --bg-1:#12141d;
+    --panel:rgba(255, 255, 255, 0.04);
+    --panel-border:rgba(255, 255, 255, 0.16);
+    --silver-100:#ffffff;
+    --silver-200:#f1f5f9;
+    --silver-300:#cbd5e1;
+    --silver-400:#94a3b8;
+    --silver-500:#64748b;
+    --silver-700:#334155;
+    --ink:#f8fafc;
+    
+    --chrome-gradient:linear-gradient(135deg, #ffffff 0%, #cbd5e1 45%, #94a3b8 75%, #e2e8f0 100%);
+    --chrome-btn:linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(203,213,225,0.05) 50%, rgba(0,0,0,0.3) 100%);
+    --danger:#ff8a93;
+    
+    --radius-lg:16px;
+    --radius-md:10px;
+    --radius-sm:6px;
+    --font-display:'Orbitron', sans-serif;
+    --font-num:'Rajdhani', sans-serif;
+    --font-body:'Space Grotesk', sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  
+  html, body {
+    background-color: #090a0f !important;
+  }
+
+  body{
+    margin:0;
+    padding:0;
+    min-height:100vh;
+    background-color: #090a0f;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 85% 85%, rgba(203, 213, 225, 0.04) 0%, transparent 45%),
+      linear-gradient(180deg, #090a0f 0%, #12141d 50%, #090a0f 100%);
+    background-attachment: fixed;
+    color:var(--ink);
+    font-family:var(--font-body);
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size:35px 35px;
+    opacity:0.6;
+    z-index:0;
+  }
+
+  /* BADGE DE COTAÇÃO FIXO NO TOPO DIREITO MOBILE */
+  .top-rate-badge {
+    position: fixed;
+    top: 12px;
+    right: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: #11131a;
+    border: 1px solid var(--panel-border);
+    border-radius: 16px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #94a3b8;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    z-index: 1000;
+  }
+  .top-rate-badge .tag-br, .top-rate-badge .tag-cn { font-size: 10px; font-weight: 600; color: #64748b; }
+  .top-rate-badge .tag-val { color: #f8fafc; font-weight: 600; }
+  .top-rate-badge .tag-cny-val { color: #00ff9d; font-weight: 700; margin-left: 2px; }
+
+  .hero{
+    position:relative;
+    z-index:10;
+    text-align:left;
+    padding:24px 16px 12px;
+  }
+
+  .eyebrow{
+    font-size:10px;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:var(--silver-400);
+    margin:0 0 4px;
+  }
+
+  .title{
+    margin:0;
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:20px;
+    letter-spacing:0.06em;
+    background:linear-gradient(110deg, #64748b 0%, #ffffff 25%, #cbd5e1 50%, #ffffff 75%, #475569 100%);
+    background-size:280% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  .title-rule{
+    width:80px;
+    height:1px;
+    margin:10px 0 0;
+    background:linear-gradient(90deg, rgba(255,255,255,0.6), transparent);
+  }
+
+  main{
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 14px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .card{
+    width:100%;
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:var(--radius-lg);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    padding:14px;
+    position:relative;
+    box-shadow:0 15px 35px -15px rgba(0,0,0,0.8);
+    display:flex;
+    flex-direction:column;
+  }
+
+  .card-head{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:12px;
+  }
+
+  .card-icon{
+    width:26px; height:26px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:6px;
+    background:linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+    border:1px solid rgba(255,255,255,0.15);
+    color:#ffffff;
+    flex-shrink:0;
+  }
+  .card-icon svg{width:13px;height:13px;}
+
+  .card-titles{display:flex; flex-direction:column; gap:1px;}
+  .card-title{
+    font-family:var(--font-display);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.12em;
+    color:#ffffff;
+  }
+  .card-sub{
+    font-size:9.5px;
+    color:var(--silver-400);
+  }
+
+  label.field-label{
+    display:block;
+    font-size:10px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--silver-300);
+    margin-bottom:4px;
+    font-weight:600;
+  }
+
+  .input-wrap{
+    display:flex;
+    align-items:center;
+    background:rgba(0,0,0,0.45);
+    border:1px solid var(--panel-border);
+    border-radius:var(--radius-md);
+    padding:0 10px;
+  }
+  .input-prefix{
+    font-family:var(--font-num);
+    font-weight:700;
+    color:var(--silver-400);
+    padding-right:6px;
+    font-size:15px;
+  }
+  .input-wrap input{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:#ffffff;
+    font-family:var(--font-num);
+    font-size:16px;
+    font-weight:700;
+    padding:8px 0;
+    min-width:0;
+  }
+  .input-wrap input::placeholder{color:var(--silver-500);}
+
+  .btn{
+    font-family:var(--font-body);
+    font-size:12px;
+    font-weight:600;
+    color:var(--silver-100);
+    background:var(--chrome-btn);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:var(--radius-md);
+    cursor:pointer;
+  }
+
+  .btn-primary{
+    width:100%;
+    margin-top:10px;
+    padding:11px;
+    font-family:var(--font-display);
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:#090a0f;
+    background:var(--chrome-gradient);
+    border:1px solid #ffffff;
+    box-shadow:0 4px 15px rgba(255,255,255,0.15);
+    border-radius:var(--radius-md);
+  }
+
+  .exchange-body { display: flex; flex-direction: column; gap: 8px; }
+
+  .rate-row{
+    display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:10px; padding-top:10px; border-top:1px dashed rgba(255,255,255,0.12);
+  }
+  .rate-label{font-size:10px; color:var(--silver-400); line-height:1.3;}
+  .rate-label span{display:block; color:#ffffff; font-family:var(--font-num); font-size:11.5px; font-weight:700;}
+  
+  .rate-control{ display:flex; align-items:center; gap:5px; }
+  .rate-btn{ width:26px; height:26px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; padding:0; border-radius:5px; }
+  .rate-control input{
+    width:56px; text-align:center; background:rgba(0,0,0,0.45); border:1px solid var(--panel-border); border-radius:var(--radius-sm); color:#ffffff; font-family:var(--font-num); font-weight:700; font-size:12px; padding:4px; outline:none;
+  }
+
+  .result-block{ margin-top:8px; padding:10px 12px; border-radius:var(--radius-md); background:linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.15); }
+  .result-label{font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--silver-400); font-weight:700;}
+  .result-value{ margin-top:3px; font-family:var(--font-num); font-size:22px; font-weight:800; color:#ffffff; }
+
+  /* NOTAS MOBILE */
+  #card-notes{ min-height:300px; display:flex; flex-direction:column; }
+  .tabs-bar{ display:flex; align-items:center; gap:5px; overflow-x:auto; padding-bottom:6px; margin-bottom:6px; border-bottom:1px solid var(--panel-border); scrollbar-width:none; }
+  .tabs-bar::-webkit-scrollbar{display:none;}
+  .tab{ display:flex; align-items:center; gap:5px; padding:5px 8px; border-radius:6px 6px 0 0; font-size:11px; font-weight:600; color:var(--silver-400); white-space:nowrap; cursor:pointer; border-bottom:2px solid transparent; background:rgba(255,255,255,0.02); }
+  .tab.active{ color:#ffffff; border-bottom:2px solid #ffffff; background:rgba(255,255,255,0.08); }
+  .tab-name{ max-width:90px; overflow:hidden; text-overflow:ellipsis; outline:none; }
+  .tab-close{ display:flex; align-items:center; justify-content:center; width:12px; height:12px; border-radius:50%; color:var(--silver-400); }
+  .tab-close:hover{ color:var(--danger); }
+  .tab-add{ flex-shrink:0; width:22px; height:22px; display:flex; align-items:center; justify-content:center; border-radius:6px; color:#ffffff; font-size:13px; font-weight:700; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); }
+
+  .notes-area{ flex:1; display:flex; position:relative; background:rgba(0,0,0,0.35); border:1px solid var(--panel-border); border-radius:var(--radius-md); overflow:hidden; height: 180px; }
+  #notepad-textarea{ flex:1; min-height:0; height:100%; resize:none; background:transparent; border:none; color:var(--ink); font-family:var(--font-body); font-size:12.5px; line-height:1.5; padding:10px; outline:none; overflow-y:auto; }
+  .notepad-math-gutter{ width:95px; flex-shrink:0; border-left:1px solid var(--panel-border); background:rgba(0,0,0,0.4); display:flex; flex-direction:column; user-select:none; overflow:hidden; }
+  .math-gutter-lines{ flex:1; overflow-y:hidden; padding:10px 8px; font-family:var(--font-num); font-size:12.5px; line-height:1.5; text-align:right; color:#ffffff; font-weight:700; }
+  .math-gutter-line{ height:18.75px; line-height:18.75px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .math-gutter-total{ padding:6px 8px; border-top:1px solid var(--panel-border); background:rgba(255,255,255,0.05); display:flex; flex-direction:column; align-items:flex-end; gap:1px; }
+  .gutter-total-label{ font-size:8px; letter-spacing:0.1em; color:var(--silver-400); text-transform:uppercase; font-weight:700; }
+  .gutter-total-val{ font-family:var(--font-num); font-size:12.5px; font-weight:800; color:#ffffff; }
+  .save-indicator{ display:flex; align-items:center; gap:5px; margin-top:6px; font-size:10px; color:var(--silver-400); }
+  .save-dot{ width:5px; height:5px; border-radius:50%; background:var(--silver-700); transition:all 0.3s ease; }
+  .save-dot.saved{ background:#ffffff; box-shadow:0 0 8px #ffffff; }
+
+  /* CALCULADORA MOBILE */
+  .calc-display{ background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.15); border-radius:var(--radius-md); padding:6px 10px; text-align:right; margin-bottom:8px; height:52px; display:flex; flex-direction:column; justify-content:flex-end; gap:1px; }
+  #calc-top{ font-family:var(--font-num); font-size:10px; color:var(--silver-400); min-height:11px; }
+  #calc-bottom{ font-family:var(--font-num); font-size:20px; font-weight:800; color:#ffffff; }
+  .calc-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:5px; }
+  .calc-btn{ padding:10px 0; font-family:var(--font-num); font-size:15px; font-weight:700; border-radius:6px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#ffffff; }
+  .calc-btn.span-2{grid-column:span 2;}
+  .calc-btn.op{color:var(--silver-200); font-weight:800; background:rgba(255,255,255,0.04);}
+  .calc-btn.op.is-active{ background:var(--chrome-gradient); color:#090a0f; border-color:#ffffff; }
+  .calc-btn.func{color:var(--danger); font-weight:700;}
+  .calc-btn.equals{ background:var(--chrome-gradient); color:#090a0f; font-weight:900; border:1px solid #ffffff; }
+
+  /* LINKS DE LOJAS MOBILE */
+  .link-cat-list { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+  .link-card-item { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 10px 12px; background: rgba(255, 255, 255, 0.025); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-sm); color: var(--silver-200); font-size: 12px; font-weight: 500; cursor: pointer; text-align: left; }
+  .link-card-item-title { display: flex; align-items: center; gap: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  .link-card-item-bullet { width: 4px; height: 4px; border-radius: 50%; background: var(--silver-400); flex-shrink: 0; }
+  .link-card-badge { font-size: 10px; font-family: var(--font-num); font-weight: 700; padding: 2px 6px; border-radius: 4px; background: rgba(255, 255, 255, 0.05); color: var(--silver-400); flex-shrink: 0; }
+
+  /* BOTÃO FLUTUANTE DE NAVEGAÇÃO */
+  .scroll-nav-btn{ position:fixed; right:16px; bottom:16px; z-index:50; width:44px; height:44px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:var(--chrome-btn); border:1px solid rgba(255,255,255,0.25); color:#ffffff; cursor:pointer; box-shadow:0 8px 25px rgba(0,0,0,0.8); }
+  .scroll-nav-btn svg{width:18px;height:18px;}
+  
+  .page-section{ width:100%; min-height:100vh; display:flex; flex-direction:column; justify-content:space-between; }
+  footer{ text-align:center; padding:14px; color:var(--silver-500); font-size:9.5px; letter-spacing:0.06em; }
+</style>
+</head>
+<body>
+
+<!-- BADGE DE COTAÇÃO FIXO NO TOPO MOBILE -->
+<div class="top-rate-badge" id="top-rate-badge">
+  <span class="tag-br">BR</span> <span class="tag-val">R$1 =</span> <span class="tag-cn">CN</span> <span class="tag-cny-val" id="top-cny-val">¥1,23</span>
+</div>
+
+<!-- SEÇÃO 1: PAINEL PRINCIPAL -->
+<section class="page-section" id="section-dashboard">
+  <div>
+    <div class="hero">
+      <p class="eyebrow">Painel Pessoal - Mobile</p>
+      <h1 class="title">S.T.R.O - Central</h1>
+      <div class="title-rule"></div>
+    </div>
+
+    <main>
+      <!-- CARD 1: Câmbio -->
+      <section class="card" id="card-exchange">
+        <div class="card-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10h11M7 10l3-3M7 10l3 3M17 14H6M17 14l-3-3M17 14l-3 3"/></svg>
+          </div>
+          <div class="card-titles">
+            <span class="card-title">CNY → BRL</span>
+            <span class="card-sub">Conversão Yuan para Real</span>
+          </div>
+        </div>
+        <div class="exchange-body">
+          <div>
+            <label class="field-label" for="yuan-input">Valor em yuan</label>
+            <div class="input-wrap">
+              <span class="input-prefix">¥</span>
+              <input id="yuan-input" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off">
+            </div>
+          </div>
+          <button class="btn btn-primary" id="convert-btn" type="button">CONVERTER AGORA</button>
+          <div class="result-block">
+            <div class="result-label">Você paga em reais</div>
+            <div class="result-value" id="real-result">R$ 0,00</div>
+          </div>
+        </div>
+        <div class="rate-row">
+          <div class="rate-info">
+            <div class="rate-label">Cotação usada <span>1 R$ = <span id="rate-preview">1.22</span> ¥</span></div>
+          </div>
+          <div class="rate-actions">
+            <div class="rate-control">
+              <button class="btn rate-btn" id="rate-minus" type="button">−</button>
+              <input id="rate-input" type="text" inputmode="decimal" value="1.22">
+              <button class="btn rate-btn" id="rate-plus" type="button">+</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CARD 2: Notas -->
+      <section class="card" id="card-notes">
+        <div class="card-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          </div>
+          <div class="card-titles">
+            <span class="card-title">NOTAS & CÁLCULOS</span>
+            <span class="card-sub">Automático nas linhas</span>
+          </div>
+        </div>
+        <div class="tabs-bar" id="tabs-bar"></div>
+        <div class="notes-area">
+          <textarea id="notepad-textarea" placeholder="Escreva aqui... (ex: 150 + 50)"></textarea>
+          <div class="notepad-math-gutter" id="notepad-math-gutter">
+            <div class="math-gutter-lines" id="math-gutter-lines"></div>
+            <div class="math-gutter-total" id="math-gutter-total">
+              <span class="gutter-total-label">SOMA</span>
+              <span class="gutter-total-val" id="gutter-total-val">0,00</span>
+            </div>
+          </div>
+        </div>
+        <div class="save-indicator">
+          <span class="save-dot" id="save-dot"></span>
+          <span id="save-text">Pronto</span>
+        </div>
+      </section>
+
+      <!-- CARD 3: Calculadora -->
+      <section class="card" id="card-calc">
+        <div class="card-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01"/></svg>
+          </div>
+          <div class="card-titles">
+            <span class="card-title">CALCULADORA</span>
+            <span class="card-sub">Rápida / Porcentagem</span>
+          </div>
+        </div>
+        <div class="calc-display">
+          <div id="calc-top"></div>
+          <div id="calc-bottom">0</div>
+        </div>
+        <div class="calc-grid" id="calc-grid">
+          <button class="btn calc-btn func" data-action="clear" type="button">C</button>
+          <button class="btn calc-btn func" data-action="backspace" type="button">⌫</button>
+          <button class="btn calc-btn op" data-action="percent" type="button">%</button>
+          <button class="btn calc-btn op" data-action="operator" data-value="/" type="button">÷</button>
+          <button class="btn calc-btn" data-action="digit" data-value="7" type="button">7</button>
+          <button class="btn calc-btn" data-action="digit" data-value="8" type="button">8</button>
+          <button class="btn calc-btn" data-action="digit" data-value="9" type="button">9</button>
+          <button class="btn calc-btn op" data-action="operator" data-value="*" type="button">×</button>
+          <button class="btn calc-btn" data-action="digit" data-value="4" type="button">4</button>
+          <button class="btn calc-btn" data-action="digit" data-value="5" type="button">5</button>
+          <button class="btn calc-btn" data-action="digit" data-value="6" type="button">6</button>
+          <button class="btn calc-btn op" data-action="operator" data-value="-" type="button">−</button>
+          <button class="btn calc-btn" data-action="digit" data-value="1" type="button">1</button>
+          <button class="btn calc-btn" data-action="digit" data-value="2" type="button">2</button>
+          <button class="btn calc-btn" data-action="digit" data-value="3" type="button">3</button>
+          <button class="btn calc-btn op" data-action="operator" data-value="+" type="button">+</button>
+          <button class="btn calc-btn span-2" data-action="digit" data-value="0" type="button">0</button>
+          <button class="btn calc-btn" data-action="decimal" type="button">.</button>
+          <button class="btn calc-btn equals" data-action="equals" type="button">=</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <footer>Central Mobile - est 25</footer>
+</section>
+
+<!-- SEÇÃO 2: PÁGINA DE LINKS ÚTEIS -->
+<section class="page-section" id="section-links" style="display:none;">
+  <div>
+    <div class="hero">
+      <p class="eyebrow">Lojas e Plataformas</p>
+      <h1 class="title">LINKS ÚTEIS</h1>
+      <div class="title-rule"></div>
+    </div>
+    <main id="links-container"></main>
+  </div>
+  <footer>Central Hub - Mobile Links</footer>
+</section>
+
+<!-- BOTÃO FLUTUANTE PARA TROCAR DE PÁGINA -->
+<button class="scroll-nav-btn" id="scroll-nav-btn" type="button" aria-label="Alternar Páginas">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="scroll-nav-icon"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+</button>
+
+<script>
+(function(){
+  "use strict";
+
+  // Cotação Fixa Topo
+  const COTACAO_CONFIG = { VALOR_MANUAL: 1.23 };
+  function atualizarCotacaoTopo() {
+    const topCnyVal = document.getElementById('top-cny-val');
+    if (!topCnyVal) return;
+    topCnyVal.textContent = '¥' + COTACAO_CONFIG.VALOR_MANUAL.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  atualizarCotacaoTopo();
+
+  // Conversor Câmbio
+  const yuanInput = document.getElementById('yuan-input');
+  const rateInput = document.getElementById('rate-input');
+  const ratePreview = document.getElementById('rate-preview');
+  const rateMinus = document.getElementById('rate-minus');
+  const ratePlus = document.getElementById('rate-plus');
+  const convertBtn = document.getElementById('convert-btn');
+  const realResult = document.getElementById('real-result');
+
+  function parseLocaleNumber(str){
+    if (typeof str !== 'string') return NaN;
+    return parseFloat(str.trim().replace(/\./g, '').replace(',', '.'));
+  }
+  function currentRate(){
+    const r = parseFloat(String(rateInput.value).replace(',', '.'));
+    return (isFinite(r) && r > 0) ? r : 1.22;
+  }
+  function convert(){
+    const yuan = parseLocaleNumber(yuanInput.value) || 0;
+    const real = yuan / currentRate();
+    realResult.textContent = real.toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
+  }
+  function syncRatePreview(){
+    ratePreview.textContent = currentRate().toLocaleString('pt-BR', { minimumFractionDigits:2, maximumFractionDigits:2 });
+  }
+  function adjustRate(delta){
+    const next = Math.max(0.01, Math.round((currentRate() + delta) * 100) / 100);
+    rateInput.value = next.toFixed(2);
+    syncRatePreview();
+    convert();
+  }
+
+  if(convertBtn) convertBtn.addEventListener('click', convert);
+  if(yuanInput) yuanInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') convert(); });
+  if(rateInput) rateInput.addEventListener('input', () => { syncRatePreview(); convert(); });
+  if(rateMinus) rateMinus.addEventListener('click', () => adjustRate(-0.01));
+  if(ratePlus) ratePlus.addEventListener('click', () => adjustRate(0.01));
+  syncRatePreview();
+
+  // Calculadora
+  const calcTop = document.getElementById('calc-top');
+  const calcBottom = document.getElementById('calc-bottom');
+  const calcGrid = document.getElementById('calc-grid');
+  let currentInput = '0', previousValue = null, operator = null, waitingForNewValue = false, pendingExpressionSuffix = null, lastExpression = null, hasError = false;
+  const opSymbol = { '+':'+', '-':'−', '*':'×', '/':'÷' };
+
+  function formatNum(n){
+    if (!isFinite(n)) return null;
+    let rounded = Math.round((n + Number.EPSILON) * 1e9) / 1e9;
+    let str = rounded.toString();
+    if (str.length > 12 && str.indexOf('e') === -1) str = parseFloat(rounded.toPrecision(8)).toString();
+    return str;
+  }
+  function calculate(a, b, op){
+    switch(op){ case '+': return a + b; case '-': return a - b; case '*': return a * b; case '/': return b === 0 ? null : a / b; default: return b; }
+  }
+  function resetAll(){ currentInput = '0'; previousValue = null; operator = null; waitingForNewValue = false; pendingExpressionSuffix = null; lastExpression = null; hasError = false; }
+  function renderCalc(){
+    document.querySelectorAll('.calc-btn.op').forEach(b => b.classList.remove('is-active'));
+    if (operator && waitingForNewValue && calcGrid){
+      const activeBtn = calcGrid.querySelector(`.calc-btn.op[data-value="${operator}"]`);
+      if (activeBtn) activeBtn.classList.add('is-active');
+    }
+    if (calcTop) {
+      if (lastExpression !== null) calcTop.textContent = lastExpression;
+      else if (previousValue !== null && operator){
+        const suffix = pendingExpressionSuffix !== null ? pendingExpressionSuffix : (waitingForNewValue ? '' : currentInput);
+        calcTop.textContent = `${formatNum(previousValue)} ${opSymbol[operator]} ${suffix}`;
+      } else calcTop.textContent = '';
+    }
+    if (calcBottom) calcBottom.textContent = hasError ? 'Erro' : currentInput;
+  }
+
+  if (calcGrid) {
+    calcGrid.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-action]'); if (!btn) return;
+      const action = btn.dataset.action; const value = btn.dataset.value;
+      if (action === 'digit'){
+        if (hasError) resetAll();
+        if (waitingForNewValue){ currentInput = value; waitingForNewValue = false; }
+        else { currentInput = currentInput === '0' ? value : currentInput + value; }
+        pendingExpressionSuffix = null; renderCalc();
+      } else if (action === 'decimal'){
+        if (hasError) resetAll();
+        if (waitingForNewValue){ currentInput = '0.'; waitingForNewValue = false; }
+        else if (currentInput.indexOf('.') === -1){ currentInput += '.'; }
+        pendingExpressionSuffix = null; renderCalc();
+      } else if (action === 'backspace'){
+        if (hasError) resetAll();
+        if (!waitingForNewValue) currentInput = currentInput.length > 1 ? currentInput.slice(0, -1) : '0';
+        renderCalc();
+      } else if (action === 'clear'){ resetAll(); renderCalc(); }
+      else if (action === 'operator'){
+        if (hasError) resetAll();
+        const inputValue = parseFloat(currentInput);
+        if (previousValue === null) previousValue = inputValue;
+        else if (operator && !waitingForNewValue){
+          const res = calculate(previousValue, inputValue, operator);
+          if (res === null){ hasError = true; renderCalc(); return; }
+          previousValue = res; currentInput = formatNum(res);
+        }
+        operator = value; waitingForNewValue = true; pendingExpressionSuffix = null; renderCalc();
+      } else if (action === 'equals'){
+        if (hasError || operator === null || previousValue === null) return;
+        const res = calculate(previousValue, parseFloat(currentInput), operator);
+        if (res === null){ hasError = true; renderCalc(); return; }
+        currentInput = formatNum(res); previousValue = null; operator = null; waitingForNewValue = true; renderCalc();
+      }
+    });
+  }
+  renderCalc();
+
+  // Bloco de Notas
+  const tabsBar = document.getElementById('tabs-bar');
+  const textarea = document.getElementById('notepad-textarea');
+  const saveDot = document.getElementById('save-dot');
+  const saveText = document.getElementById('save-text');
+  const gutterLines = document.getElementById('math-gutter-lines');
+  const gutterTotalVal = document.getElementById('gutter-total-val');
+  const NOTES_KEY = 'painel-mobile-notes-v1';
+  let tabs = [{ id: '1', title: 'Nota 1', content: '' }], activeId = '1', saveTimer = null;
+
+  function evaluateLineMath(lineText){
+    if (!lineText || !lineText.trim()) return null;
+    let line = lineText.trim(); if (line.includes('=')) line = line.split('=')[0].trim();
+    let expr = line.replace(/×/g, '*').replace(/÷/g, '/').replace(/,/g, '.');
+    try {
+      if (/^[0-9\.\+\-\*\/\(\)\s]+$/.test(expr)){
+        const res = Function('"use strict"; return (' + expr + ')')();
+        return (typeof res === 'number' && isFinite(res)) ? res : null;
+      }
+    } catch(e){}
+    return null;
+  }
+  function updateMathGutter(){
+    if (!gutterLines || !textarea) return;
+    const lines = textarea.value.split('\n'); gutterLines.innerHTML = ''; let total = 0;
+    lines.forEach(l => {
+      const el = document.createElement('div'); el.className = 'math-gutter-line';
+      const val = evaluateLineMath(l);
+      if (val !== null){ el.textContent = val.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2}); total += val; }
+      else { el.textContent = ''; }
+      gutterLines.appendChild(el);
+    });
+    if (gutterTotalVal) gutterTotalVal.textContent = total.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+    gutterLines.scrollTop = textarea.scrollTop;
+  }
+
+  if (textarea){
+    textarea.addEventListener('scroll', () => { if (gutterLines) gutterLines.scrollTop = textarea.scrollTop; });
+    textarea.addEventListener('input', () => {
+      const active = tabs.find(t => t.id === activeId);
+      if (active) active.content = textarea.value;
+      updateMathGutter();
+      if (saveTimer) clearTimeout(saveTimer);
+      saveText.textContent = 'Digitando…';
+      saveTimer = setTimeout(() => {
+        localStorage.setItem(NOTES_KEY, JSON.stringify({ tabs, activeId }));
+        saveDot.classList.add('saved'); saveText.textContent = 'Salvo';
+        setTimeout(() => saveDot.classList.remove('saved'), 800);
+      }, 600);
+    });
+  }
+
+  function renderTabs(){
+    if (!tabsBar) return; tabsBar.innerHTML = '';
+    tabs.forEach(t => {
+      const el = document.createElement('div'); el.className = 'tab' + (t.id === activeId ? ' active' : '');
+      el.innerHTML = `<span class="tab-name">${t.title}</span><span class="tab-close">×</span>`;
+      el.addEventListener('click', () => {
+        const cur = tabs.find(x => x.id === activeId); if (cur) cur.content = textarea.value;
+        activeId = t.id; textarea.value = t.content; renderTabs(); updateMathGutter();
+      });
+      el.querySelector('.tab-close').addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (tabs.length === 1) return;
+        const idx = tabs.findIndex(x => x.id === t.id); tabs.splice(idx, 1);
+        if (activeId === t.id){ activeId = tabs[Math.max(0, idx - 1)].id; textarea.value = tabs.find(x => x.id === activeId).content; }
+        renderTabs(); updateMathGutter();
+      });
+      tabsBar.appendChild(el);
+    });
+    const addBtn = document.createElement('button'); addBtn.className = 'btn tab-add'; addBtn.textContent = '+';
+    addBtn.addEventListener('click', () => {
+      const cur = tabs.find(x => x.id === activeId); if (cur) cur.content = textarea.value;
+      const newId = 'n-' + Date.now(); tabs.push({ id: newId, title: 'Nota ' + (tabs.length + 1), content: '' });
+      activeId = newId; textarea.value = ''; renderTabs(); updateMathGutter();
+    });
+    tabsBar.appendChild(addBtn);
+  }
+
+  try {
+    const saved = localStorage.getItem(NOTES_KEY);
+    if (saved){ const parsed = JSON.parse(saved); if (parsed && parsed.tabs){ tabs = parsed.tabs; activeId = parsed.activeId || tabs[0].id; } }
+  } catch(e){}
+  if (textarea) textarea.value = (tabs.find(t => t.id === activeId) || tabs[0]).content;
+  renderTabs(); updateMathGutter();
+
+  // Renderizador de Links (Segunda Página)
+  const CATEGORIES = [
+    { name: 'Tênis & Calçados', links: [ { label: 'WWTOP', url: 'https://wwfake100.x.yupoo.com/search/album' }, { label: 'Oldchen', url: 'https://qxdysw777.x.yupoo.com/albums/' }, { label: 'Yolo', url: 'https://yolo66.x.yupoo.com/albums/' }, { label: 'JMDY', url: 'https://tianjin-no1.x.yupoo.com' } ] },
+    { name: 'Streetwear', links: [ { label: 'Rockets Reps', url: 'https://rockets-reps.x.yupoo.com/categories' }, { label: 'Tiger Official', url: 'https://tiger-official.x.yupoo.com/' }, { label: 'GOAT Official', url: 'https://goat-official.x.yupoo.com/' }, { label: 'Elephant Factory', url: 'https://elephant-factory.x.yupoo.com/categories/4564614' } ] },
+    { name: 'Esportes', links: [ { label: 'AAAJersey', url: 'https://aaaajersey.x.yupoo.com/albums/' }, { label: 'MartinReps', url: 'https://martinreps.x.yupoo.com/categories/4683929' } ] },
+    { name: 'Variados', links: [ { label: 'Scorpio Reps', url: 'https://scorpio-reps.x.yupoo.com/albums' }, { label: 'Repkingdom', url: 'https://repkingdom.x.yupoo.com/albums' }, { label: 'PengReps', url: 'https://pengreps.x.yupoo.com/' } ] }
+  ];
+  const linksContainer = document.getElementById('links-container');
+  if (linksContainer){
+    CATEGORIES.forEach(cat => {
+      const card = document.createElement('section'); card.className = 'card';
+      card.innerHTML = `<div class="card-head"><div class="card-titles"><span class="card-title">${cat.name.toUpperCase()}</span></div></div>`;
+      const list = document.createElement('div'); list.className = 'link-cat-list';
+      cat.links.forEach(l => {
+        const item = document.createElement('button'); item.type = 'button'; item.className = 'link-card-item';
+        item.innerHTML = `<div class="link-card-item-title"><span class="link-card-item-bullet"></span><span>${l.label}</span></div><span class="link-card-badge">ABRIR ↗</span>`;
+        item.addEventListener('click', () => window.open(l.url, '_blank'));
+        list.appendChild(item);
+      });
+      card.appendChild(list); linksContainer.appendChild(card);
+    });
+  }
+
+  // Alternador de páginas via botão flutuante
+  const secDash = document.getElementById('section-dashboard');
+  const secLinks = document.getElementById('section-links');
+  const navBtn = document.getElementById('scroll-nav-btn');
+  const navIcon = document.getElementById('scroll-nav-icon');
+  let viewingLinks = false;
+  if (navBtn){
+    navBtn.addEventListener('click', () => {
+      viewingLinks = !viewingLinks;
+      if(secDash) secDash.style.display = viewingLinks ? 'none' : 'flex';
+      if(secLinks) secLinks.style.display = viewingLinks ? 'flex' : 'none';
+      if(navIcon) navIcon.innerHTML = viewingLinks ? '<path d="M12 19V5M5 12l7-7 7 7"/>' : '<path d="M19 12h-14M12 5l-7 7 7 7"/>';
+      window.scrollTo(0, 0);
+    });
+  }
+})();
+</script>
+</body>
+</html>
