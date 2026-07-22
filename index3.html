@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="referrer" content="no-referrer">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090a0f">
+<title>S.T.R.O - Escolha de Acesso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#090a0f;
+    --bg-1:#12141d;
+    --panel:rgba(255, 255, 255, 0.035);
+    --panel-border:rgba(255, 255, 255, 0.16);
+    --silver-100:#ffffff;
+    --silver-400:#94a3b8;
+    --chrome-gradient:linear-gradient(135deg, #ffffff 0%, #cbd5e1 45%, #94a3b8 75%, #e2e8f0 100%);
+    --chrome-btn:linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(203,213,225,0.05) 50%, rgba(0,0,0,0.3) 100%);
+    --radius-lg:24px;
+    --radius-md:12px;
+    --font-display:'Orbitron', sans-serif;
+    --font-body:'Space Grotesk', sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  
+  html, body {
+    background-color: #090a0f !important;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    width: 100vw;
+  }
+
+  body{
+    background:
+      radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.06) 0%, transparent 40%),
+      radial-gradient(circle at 85% 85%, rgba(203, 213, 225, 0.05) 0%, transparent 45%),
+      linear-gradient(180deg, #090a0f 0%, #12141d 50%, #090a0f 100%);
+    background-attachment: fixed;
+    color: var(--silver-100);
+    font-family: var(--font-body);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+    padding: 20px;
+  }
+
+  /* CANVAS DO SPOTLIGHT (INTERAÇÃO COM O MOUSE) */
+  #spotlight-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* GRID DE FUNDO ESTILO Y2K */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size:45px 45px;
+    mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 90%);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 90%);
+    opacity:0.75;
+    z-index:2;
+  }
+
+  /* BLOBS ANIMADOS DE FUNDO */
+  .bg-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+    animation: blobFloat 18s infinite alternate ease-in-out;
+  }
+  .bg-blob-1 { top: -10%; left: 5%; width: 550px; height: 550px; background: radial-gradient(circle, rgba(255, 255, 255, 0.25), rgba(148, 163, 184, 0.1), transparent 70%); }
+  .bg-blob-2 { bottom: -10%; right: 5%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(203, 213, 225, 0.2), rgba(100, 116, 139, 0.1), transparent 70%); animation-delay: -7s; }
+
+  @keyframes blobFloat {
+    0% { transform: translate(-20px, -20px) scale(1); }
+    50% { transform: translate(40px, 30px) scale(1.1); }
+    100% { transform: translate(-20px, 40px) scale(0.95); }
+  }
+
+  /* CAIXA PRINCIPAL */
+  .choice-container {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 48px 36px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.2);
+    width: 100%;
+    max-width: 480px;
+    animation: containerAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .choice-container::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    opacity:0.6;
+  }
+
+  @keyframes containerAppear {
+    0% { opacity: 0; transform: translateY(20px) scale(0.97); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--silver-400);
+    margin-bottom: 10px;
+  }
+
+  .title {
+    margin: 0 0 32px 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(20px, 4vw, 26px);
+    letter-spacing: 0.08em;
+    background: linear-gradient(110deg, #64748b 0%, #ffffff 25%, #cbd5e1 50%, #ffffff 75%, #475569 100%);
+    background-size: 280% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: sheen 7s linear infinite;
+  }
+
+  @keyframes sheen{
+    0%{background-position:0% 0;}
+    100%{background-position:280% 0;}
+  }
+
+  .buttons-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .btn-choice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    padding: 16px 20px;
+    font-family: var(--font-display);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--silver-100);
+    background: var(--chrome-btn);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-choice:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: linear-gradient(180deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.08) 100%);
+    box-shadow: 0 0 30px rgba(255,255,255,0.3), inset 0 1px 0 rgba(255,255,255,0.25);
+    transform: translateY(-3px);
+  }
+
+  .btn-choice:active {
+    transform: translateY(-1px);
+  }
+
+  .btn-choice svg {
+    width: 18px;
+    height: 18px;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+
+  .btn-choice:hover svg {
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+  <!-- ELEMENTOS DECORATIVOS E LUZ DO MOUSE -->
+  <canvas id="spotlight-canvas"></canvas>
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
+
+  <div class="choice-container">
+    <p class="eyebrow">Painel Pessoal - by Lorenzo Balestro</p>
+    <h1 class="title">COMO DESEJA ACESSAR?</h1>
+    
+    <div class="buttons-group">
+      <!-- Substitua 'painel-pc.html' pelo seu link de PC quando quiser -->
+      <a href="painel-pc.html" class="btn-choice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Acessar pelo Computador (PC)
+      </a>
+
+      <!-- Substitua 'painel-celular.html' pelo seu link de Celular quando quiser -->
+      <a href="painel-celular.html" class="btn-choice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        Acessar pelo Celular
+      </a>
+    </div>
+  </div>
+
+<script>
+  // Efeito de luz interativa com o mouse igual ao painel principal
+  (function(){
+    "use strict";
+    const canvas = document.getElementById('spotlight-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => { 
+      width = canvas.width = window.innerWidth; 
+      height = canvas.height = window.innerHeight; 
+    });
+
+    let mouseX = width / 2; 
+    let mouseY = height / 2;
+    let currentX = mouseX; 
+    let currentY = mouseY;
+
+    window.addEventListener('pointermove', (e) => { 
+      mouseX = e.clientX; 
+      mouseY = e.clientY; 
+    });
+    document.addEventListener('mouseleave', () => { 
+      mouseX = -500; 
+      mouseY = -500; 
+    });
+
+    function renderSpotlight() {
+      currentX += (mouseX - currentX) * 0.35;
+      currentY += (mouseY - currentY) * 0.35;
+      ctx.clearRect(0, 0, width, height);
+      if (currentX > -100 && currentY > -100) {
+        let grad = ctx.createRadialGradient(currentX, currentY, 0, currentX, currentY, 450);
+        grad.addColorStop(0, 'rgba(255, 255, 255, 0.16)'); 
+        grad.addColorStop(0.35, 'rgba(203, 213, 225, 0.07)');
+        grad.addColorStop(0.7, 'rgba(148, 163, 184, 0.02)'); 
+        grad.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad; 
+        ctx.beginPath(); 
+        ctx.arc(currentX, currentY, 450, 0, Math.PI * 2); 
+        ctx.fill();
+      }
+      requestAnimationFrame(renderSpotlight);
+    }
+    renderSpotlight();
+  })();
+</script>
+</body>
+</html>
