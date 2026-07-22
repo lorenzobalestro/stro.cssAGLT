@@ -47,8 +47,6 @@
   
   html, body {
     background-color: #090a0f !important;
-    overscroll-behavior: none !important;
-    overscroll-behavior-y: none !important;
   }
 
   body{
@@ -135,7 +133,7 @@
     position:relative;
     z-index:1;
     text-align:center;
-    padding:46px 20px 24px;
+    padding:30px 20px 16px;
   }
 
   .eyebrow{
@@ -144,14 +142,14 @@
     letter-spacing:0.35em;
     text-transform:uppercase;
     color:var(--silver-400);
-    margin:0 0 10px;
+    margin:0 0 8px;
   }
 
   .title{
     margin:0;
     font-family:var(--font-display);
     font-weight:900;
-    font-size:clamp(22px, 4vw, 38px);
+    font-size:clamp(22px, 4vw, 36px);
     letter-spacing:0.08em;
     background:linear-gradient(110deg, #64748b 0%, #ffffff 25%, #cbd5e1 50%, #ffffff 75%, #475569 100%);
     background-size:280% 100%;
@@ -165,7 +163,7 @@
   .title-rule{
     width:130px;
     height:1px;
-    margin:16px auto 0;
+    margin:12px auto 0;
     background:linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
     position:relative;
   }
@@ -183,18 +181,18 @@
     100%{background-position:280% 0;}
   }
 
-  /* LAYOUT COM TRES COLUNAS PARA NOTAS NO MEIO E FERRAMENTAS NAS LATERAIS */
+  /* LAYOUT DE 3 COLUNAS HARMONIOSO E PROPORCIONAL */
   main{
     position: relative;
     z-index: 2;
     width: calc(100% - 40px);
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 10px 0 16px;
+    padding: 10px 0 20px;
     display: grid;
-    grid-template-columns: 1fr 1.3fr 1fr;
+    grid-template-columns: 1fr 1.25fr 1fr;
     gap: 18px;
     align-items: stretch;
-    overflow: visible;
   }
 
   /* CARD ESTILO Y2K GLASS & CHROME */
@@ -205,7 +203,7 @@
     border-radius:var(--radius-lg);
     backdrop-filter:blur(24px) saturate(180%);
     -webkit-backdrop-filter:blur(24px) saturate(180%);
-    padding:20px;
+    padding:18px;
     position:relative;
     overflow:hidden;
     box-shadow:0 20px 50px -20px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.15);
@@ -224,7 +222,7 @@
   }
 
   .card:hover{
-    transform:translateY(-4px);
+    transform:translateY(-3px);
     border-color:rgba(255, 255, 255, 0.45);
     box-shadow:0 28px 60px -15px rgba(0,0,0,0.9), 0 0 35px -10px rgba(255,255,255,0.2), inset 0 1px 0 rgba(255,255,255,0.25);
   }
@@ -233,7 +231,7 @@
     display:flex;
     align-items:center;
     gap:10px;
-    margin-bottom:16px;
+    margin-bottom:14px;
     min-height:30px;
   }
 
@@ -300,9 +298,9 @@
     outline:none;
     color:#ffffff;
     font-family:var(--font-num);
-    font-size:19px;
+    font-size:18px;
     font-weight:700;
-    padding:10px 0;
+    padding:9px 0;
     min-width:0;
   }
   .input-wrap input::placeholder{color:var(--silver-500);}
@@ -328,10 +326,10 @@
 
   .btn-primary{
     width:100%;
-    margin-top:14px;
-    padding:14px;
+    margin-top:12px;
+    padding:12px;
     font-family:var(--font-display);
-    font-size:12px;
+    font-size:11.5px;
     font-weight:800;
     letter-spacing:0.12em;
     text-transform:uppercase;
@@ -356,7 +354,7 @@
   #card-exchange .exchange-body {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     flex: 1;
     justify-content: center;
   }
@@ -366,7 +364,7 @@
     align-items:center;
     justify-content:space-between;
     gap:10px;
-    margin-top:14px;
+    margin-top:12px;
     padding-top:12px;
     border-top:1px dashed rgba(255,255,255,0.15);
   }
@@ -401,8 +399,8 @@
   }
 
   .result-block{
-    margin-top:12px;
-    padding:14px 16px;
+    margin-top:10px;
+    padding:12px 14px;
     border-radius:var(--radius-md);
     background:linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01));
     border:1px solid rgba(255,255,255,0.18);
@@ -412,14 +410,14 @@
   .result-value{
     margin-top:4px;
     font-family:var(--font-num);
-    font-size:28px;
+    font-size:26px;
     font-weight:800;
     color:#ffffff;
     word-break:break-word;
     text-shadow:0 0 15px rgba(255,255,255,0.2);
   }
 
-  /* CALCULADORA Y2K CROMADA */
+  /* CALCULADORA PROPORCIONAL SEM CORTAR BOTÕES */
   #card-calc{
     display:flex;
     flex-direction:column;
@@ -430,26 +428,26 @@
     background:rgba(0,0,0,0.5);
     border:1px solid rgba(255,255,255,0.18);
     border-radius:var(--radius-md);
-    padding:12px 14px;
+    padding:8px 12px;
     text-align:right;
-    margin-bottom:12px;
-    height:78px;
+    margin-bottom:10px;
+    height:64px;
     display:flex;
     flex-direction:column;
     justify-content:flex-end;
-    gap:2px;
+    gap:1px;
     box-shadow:inset 0 2px 8px rgba(0,0,0,0.6);
   }
   #calc-top{
     font-family:var(--font-num);
-    font-size:12.5px;
+    font-size:11px;
     color:var(--silver-400);
-    min-height:15px;
+    min-height:13px;
     overflow-wrap:anywhere;
   }
   #calc-bottom{
     font-family:var(--font-num);
-    font-size:30px;
+    font-size:24px;
     font-weight:800;
     color:#ffffff;
     overflow-wrap:anywhere;
@@ -459,19 +457,19 @@
   .calc-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
-    gap:7px;
+    gap:6px;
     flex:1;
   }
   .calc-btn{
-    padding:10px 0;
+    padding:8px 0;
     font-family:var(--font-num);
-    font-size:17px;
+    font-size:16px;
     font-weight:700;
     border-radius:8px;
     background:linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
     border:1px solid rgba(255,255,255,0.12);
     color:#ffffff;
-    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+    box-shadow:0 3px 8px rgba(0,0,0,0.3);
   }
   .calc-btn:hover{
     background:linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 100%);
@@ -496,6 +494,7 @@
   /* BLOCO DE NOTAS Y2K */
   #card-notes{
     height:100%;
+    min-height:380px;
     display:flex;
     flex-direction:column;
   }
@@ -517,7 +516,7 @@
     display:flex;
     align-items:center;
     gap:6px;
-    padding:7px 10px;
+    padding:6px 10px;
     border-radius:8px 8px 0 0;
     font-size:12px;
     font-weight:600;
@@ -844,8 +843,7 @@
 
   .page-section{
     width:100%;
-    height:100vh;
-    height:100dvh;
+    min-height:100vh;
     display:grid;
     grid-template-rows:auto minmax(0, 1fr) auto;
     scroll-snap-align:start;
@@ -853,7 +851,7 @@
     position:relative;
   }
 
-  @media (max-width:1100px){
+  @media (max-width:1024px){
     main{
       grid-template-columns:1fr;
       height:auto;
@@ -931,7 +929,7 @@
     </div>
   </section>
 
-  <!-- CARD 2: Notas (CENTRALIZADO / MEIO) -->
+  <!-- CARD 2: Notas (MEIO) -->
   <section class="card" id="card-notes" aria-label="Bloco de notas com abas">
     <div class="card-head">
       <div class="card-icon">
@@ -1034,7 +1032,7 @@
 (function(){
   "use strict";
 
-  /* ================= EFEITO DE SPOTLIGHT AUMENTADO (VELOCIDADE & ILUMINAÇÃO) ================= */
+  /* ================= EFEITO DE SPOTLIGHT (VELOCIDADE & ILUMINAÇÃO) ================= */
   const canvas = document.getElementById('spotlight-canvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
@@ -1062,14 +1060,12 @@
     });
 
     function renderSpotlight() {
-      // Lerp aumentado de 0.12 para 0.35 para maior VELOCIDADE de acompanhamento
       currentX += (mouseX - currentX) * 0.35;
       currentY += (mouseY - currentY) * 0.35;
 
       ctx.clearRect(0, 0, width, height);
 
       if (currentX > -100 && currentY > -100) {
-        // Raio aumentado para 450px e opacidade maior para mais ILUMINAÇÃO
         let grad = ctx.createRadialGradient(currentX, currentY, 0, currentX, currentY, 450);
         grad.addColorStop(0, 'rgba(255, 255, 255, 0.18)');
         grad.addColorStop(0.35, 'rgba(203, 213, 225, 0.08)');
@@ -1329,7 +1325,7 @@
 
   renderCalc();
 
-  /* ================= NOTAS BLINDADAS COM CÁLCULO E RENOMEAÇÃO ================= */
+  /* ================= NOTAS ================= */
   const tabsBar = document.getElementById('tabs-bar');
   const textarea = document.getElementById('notepad-textarea');
   const saveDot = document.getElementById('save-dot');
@@ -1387,7 +1383,6 @@
       .replace(/÷|:/g, '/')
       .replace(/,/g, '.');
 
-    // Percentuais seguros
     expr = expr.replace(/(\d+(?:\.\d+)?)\s*([\+\-])\s*(\d+(?:\.\d+)?)%/gi, (m, a, op, b) => {
       const nA = parseFloat(a);
       const nB = parseFloat(b);
