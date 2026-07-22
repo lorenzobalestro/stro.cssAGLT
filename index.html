@@ -183,6 +183,7 @@
     100%{background-position:280% 0;}
   }
 
+  /* LAYOUT COM TRES COLUNAS PARA NOTAS NO MEIO E FERRAMENTAS NAS LATERAIS */
   main{
     position: relative;
     z-index: 2;
@@ -190,20 +191,10 @@
     margin: 0 auto;
     padding: 10px 0 16px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: 1fr 1.3fr 1fr;
     gap: 18px;
     align-items: stretch;
     overflow: visible;
-  }
-
-  .col-left{
-    display:grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap:18px;
-    min-width:0;
-    overflow: visible;
-    padding-top:6px;
-    margin-top:-6px;
   }
 
   /* CARD ESTILO Y2K GLASS & CHROME */
@@ -355,7 +346,7 @@
     transform:translateY(-2px);
   }
 
-  /* REPROPORCIONAMENTO DO CARD DE CÂMBIO */
+  /* CARD DE CÂMBIO */
   #card-exchange {
     display: flex;
     flex-direction: column;
@@ -862,13 +853,10 @@
     position:relative;
   }
 
-  @media (max-width:900px){
+  @media (max-width:1100px){
     main{
       grid-template-columns:1fr;
       height:auto;
-    }
-    .col-left{
-      grid-template-columns:1fr;
     }
     #section-links main{
       grid-template-columns:1fr;
@@ -899,8 +887,7 @@
 
 <main>
 
-<div class="col-left">
-  <!-- CARD 1: Câmbio -->
+  <!-- CARD 1: Câmbio (ESQUERDA) -->
   <section class="card" id="card-exchange" aria-label="Conversor de Yuan para Real">
     <div class="card-head">
       <div class="card-icon">
@@ -944,7 +931,39 @@
     </div>
   </section>
 
-  <!-- CARD 2: Calculadora -->
+  <!-- CARD 2: Notas (CENTRALIZADO / MEIO) -->
+  <section class="card" id="card-notes" aria-label="Bloco de notas com abas">
+    <div class="card-head">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+      </div>
+      <div class="card-titles">
+        <span class="card-title">NOTAS</span>
+        <span class="card-sub">Cálculo Automático Integrado</span>
+      </div>
+    </div>
+
+    <div class="tabs-bar" id="tabs-bar"></div>
+
+    <div class="notes-area">
+      <textarea id="notepad-textarea" placeholder="Escreva aqui...&#10;Dica: Digite contas nas linhas (ex: 150 + 50 ou 200 - 10%)"></textarea>
+      
+      <div class="notepad-math-gutter" id="notepad-math-gutter">
+        <div class="math-gutter-lines" id="math-gutter-lines"></div>
+        <div class="math-gutter-total" id="math-gutter-total">
+          <span class="gutter-total-label">SOMA</span>
+          <span class="gutter-total-val" id="gutter-total-val">0,00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="save-indicator">
+      <span class="save-dot" id="save-dot"></span>
+      <span id="save-text">Pronto</span>
+    </div>
+  </section>
+
+  <!-- CARD 3: Calculadora (DIREITA) -->
   <section class="card" id="card-calc" aria-label="Calculadora">
     <div class="card-head">
       <div class="card-icon">
@@ -987,39 +1006,6 @@
       <button class="btn calc-btn equals" data-action="equals" type="button">=</button>
     </div>
   </section>
-</div>
-
-  <!-- CARD 3: Notas -->
-  <section class="card" id="card-notes" aria-label="Bloco de notas com abas">
-    <div class="card-head">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-      </div>
-      <div class="card-titles">
-        <span class="card-title">NOTAS</span>
-        <span class="card-sub">Cálculo Automático Integrado</span>
-      </div>
-    </div>
-
-    <div class="tabs-bar" id="tabs-bar"></div>
-
-    <div class="notes-area">
-      <textarea id="notepad-textarea" placeholder="Escreva aqui...&#10;Dica: Digite contas nas linhas (ex: 150 + 50 ou 200 - 10%)"></textarea>
-      
-      <div class="notepad-math-gutter" id="notepad-math-gutter">
-        <div class="math-gutter-lines" id="math-gutter-lines"></div>
-        <div class="math-gutter-total" id="math-gutter-total">
-          <span class="gutter-total-label">SOMA</span>
-          <span class="gutter-total-val" id="gutter-total-val">0,00</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="save-indicator">
-      <span class="save-dot" id="save-dot"></span>
-      <span id="save-text">Pronto</span>
-    </div>
-  </section>
 
 </main>
 
@@ -1048,7 +1034,7 @@
 (function(){
   "use strict";
 
-  /* ================= EFEITO DE SPOTLIGHT (DEGRADÊ CONTÍNUO) ================= */
+  /* ================= EFEITO DE SPOTLIGHT AUMENTADO (VELOCIDADE & ILUMINAÇÃO) ================= */
   const canvas = document.getElementById('spotlight-canvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
@@ -1076,20 +1062,22 @@
     });
 
     function renderSpotlight() {
-      // Suavização do movimento (Lerp) para luxo visual total
-      currentX += (mouseX - currentX) * 0.12;
-      currentY += (mouseY - currentY) * 0.12;
+      // Lerp aumentado de 0.12 para 0.35 para maior VELOCIDADE de acompanhamento
+      currentX += (mouseX - currentX) * 0.35;
+      currentY += (mouseY - currentY) * 0.35;
 
       ctx.clearRect(0, 0, width, height);
 
       if (currentX > -100 && currentY > -100) {
-        let grad = ctx.createRadialGradient(currentX, currentY, 0, currentX, currentY, 380);
-        grad.addColorStop(0, 'rgba(255, 255, 255, 0.075)');
-        grad.addColorStop(0.45, 'rgba(148, 163, 184, 0.025)');
+        // Raio aumentado para 450px e opacidade maior para mais ILUMINAÇÃO
+        let grad = ctx.createRadialGradient(currentX, currentY, 0, currentX, currentY, 450);
+        grad.addColorStop(0, 'rgba(255, 255, 255, 0.18)');
+        grad.addColorStop(0.35, 'rgba(203, 213, 225, 0.08)');
+        grad.addColorStop(0.7, 'rgba(148, 163, 184, 0.02)');
         grad.addColorStop(1, 'transparent');
         ctx.fillStyle = grad;
         ctx.beginPath();
-        ctx.arc(currentX, currentY, 380, 0, Math.PI * 2);
+        ctx.arc(currentX, currentY, 450, 0, Math.PI * 2);
         ctx.fill();
       }
 
@@ -1425,7 +1413,6 @@
       if (!cand || !/\d/.test(cand)) continue;
 
       try {
-        // Validação estrita por RegEx antes de avaliar (Proteção contra injeção e crashes)
         if (/^[0-9\.\+\-\*\/\(\)\s]+$/.test(cand)){
           const result = Function('"use strict"; return (' + cand + ')')();
           if (typeof result === 'number' && isFinite(result)){
@@ -1688,7 +1675,6 @@
     }
   }
 
-  // Salvamento ultra-seguro com Try/Catch para proteger contra quotas cheias ou localStorage desativado
   function persistNotes(){
     if(getActiveTab()) getActiveTab().content = textarea.value;
     try {
@@ -1728,7 +1714,7 @@
 
 })();
 
-/* ================= CENTRAL DE LINKS (100% VISÍVEL E COMPACTO) ================= */
+/* ================= CENTRAL DE LINKS ================= */
 (function(){
   "use strict";
 
@@ -1784,15 +1770,7 @@
 
   function abrirJanela(url) {
     if (!url) return;
-    const largura = 1100;
-    const altura = 750;
-    const esquerda = (window.screen.width - largura) / 2;
-    const topo = (window.screen.height - altura) / 2;
-    window.open(
-      url,
-      'YupooPopup',
-      `width=${largura},height=${altura},top=${topo},left=${esquerda},scrollbars=yes,resizable=yes`
-    );
+    window.open(url, '_blank');
   }
 
   function renderLinkGrid(){
@@ -1843,7 +1821,7 @@
 
         const badge = document.createElement('span');
         badge.className = 'link-card-badge';
-        badge.textContent = 'POPUP ↗';
+        badge.textContent = 'ABRIR ↗';
 
         item.appendChild(itemTitleWrap);
         item.appendChild(badge);
